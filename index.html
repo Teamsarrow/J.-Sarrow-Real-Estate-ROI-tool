@@ -354,6 +354,30 @@
       >
         🗑 Delete
       </button>
+            <!-- Paste-to-Parse Listing Text -->
+            <div class="input-group bg-slate-50 mt-4">
+                <h3 class="text-lg font-bold mb-3 text-slate-800">Paste Listing Text (Beta)</h3>
+                <p class="text-xs text-gray-600 mb-2">
+                    Paste a broker email, listing description, or notes. The tool will try to
+                    extract purchase price, vacancy, management %, interest rate, term, taxes,
+                    insurance, and other core assumptions into the fields above.
+                </p>
+                <textarea
+                    id="rawListingInput"
+                    class="w-full border border-gray-300 rounded-md p-2 text-sm font-mono"
+                    rows="5"
+                    placeholder="Paste text here, then click &quot;Extract from Text&quot;..."
+                ></textarea>
+                <div class="mt-2 flex justify-end">
+                    <button
+                        type="button"
+                        onclick="window.extractFromPastedText()"
+                        class="bg-slate-700 hover:bg-slate-800 text-white text-sm font-semibold py-2 px-4 rounded-lg shadow-md transition duration-150"
+                    >
+                        🔍 Extract from Text
+                    </button>
+                </div>
+            </div>
     </div>
   </div>
 </div>
@@ -672,6 +696,71 @@
         select.value = '';
         setStatus(`Scenario "${scenario?.name || ''}" deleted.`, 'info');
     };
+
+// ------------------------------
+// SCENARIO PARSER FROM RAW TEXT
+// ------------------------------
+
+window.extractFromPastedText = function () {
+    const raw = document.getElementById('rawListingInput')?.value || "";
+    if (!raw.trim()) {
+        alert("Please paste some text first.");
+        return;
+    }
+
+    // Basic numeric extract helper
+    const findNumber = (regex, fallback = null) => {
+        const m = raw.match(regex);
+        if (!m) return fallback;
+        const num = parseFloat(m[1].replace(/[$,%,\s]/g, ""));
+        return isNaN(num) ? fallback : num;
+    };
+
+    // Try to extract typical broker listing values
+    const parsed = {};
+
+    parsed.purchasePrice = findNumber(/purchase price[:\s]*\$?([\d,\.]+)/i);
+    parsed.downPaymentPct = findNumber(/down ?payment[:\s]*([\d\.]+)%/i);
+    parsed.vacancyRate = findNumber(/vacancy[:\s]*([\d\.]+)%/i);
+    parsed.managementPct = findNumber(/management[:\s]*([\d\.]+)%/i);
+    parsed.interestRate = findNumber(/interest[:\s]*([\d\.]+)%/i);
+    parsed.taxRate = findNumber(/tax(?: rate)?[:\s]*([\d\.]+)%/i);
+    parsed.insurance = findNumber(/insurance[:\s]*\$?([\d,\.]+)/i);
+    parsed.closingCosts = findNumber(/closing costs[:\s]*\$?([\d,\.]+)/i);
+
+    // Some fields may not exist — that’s fine.
+
+    // Apply extracted values into inputs only if found
+    if (parsed.purchasePrice != null)
+        document.getElementById('inputPurchasePrice').value = parsed.purchasePrice;
+
+    if (parsed.downPaymentPct != null)
+        document.getElementById('inputDownPaymentPct').value = parsed.downPaymentPct;
+
+    if (parsed.vacancyRate != null)
+        document.getElementById('inputVacancyRate').value = parsed.vacancyRate;
+
+    if (parsed.managementPct != null)
+        document.getElementById('inputMgmtFeePct').value = parsed.managementPct;
+
+    if (parsed.interestRate != null)
+        document.getElementById('inputInterestRate').value = parsed.interestRate;
+
+    if (parsed.taxRate != null)
+        document.getElementById('inputTaxRate').value = parsed.taxRate;
+
+    if (parsed.insurance != null)
+        document.getElementById('inputInsurance').value = parsed.insurance;
+
+    if (parsed.closingCosts != null)
+        document.getElementById('inputClosingCosts').value = parsed.closingCosts;
+
+    // Recalculate everything
+    updateAndCalculate();
+
+    alert("Extraction complete! Values have been applied.");
+};
+    
     // --- FIREBASE OPERATIONS ---
 
     function getProFormaDocRef() {
