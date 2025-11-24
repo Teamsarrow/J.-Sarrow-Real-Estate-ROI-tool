@@ -312,6 +312,51 @@
                 </div>
             </div>
 
+            <!-- Scenario Management -->
+<div class="input-group bg-green-50 mt-4">
+  <h3 class="text-lg font-bold mb-3 text-green-700">Scenario Management</h3>
+  <p class="text-xs text-gray-600 mb-2">
+    Save different versions of this pro forma (e.g., “Seller’s Ask”, “My Offer”, “Value-Add Plan”)
+    and reload them later on this device.
+  </p>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
+    <div>
+      <label class="block text-sm font-medium mb-1">Scenario Name</label>
+      <input
+        type="text"
+        id="scenarioNameInput"
+        class="data-input-text"
+        placeholder="e.g., 8-unit – My Offer"
+      />
+    </div>
+    <div>
+      <label class="block text-sm font-medium mb-1">Saved Scenarios</label>
+      <select
+        id="scenarioSelect"
+        class="data-input-text"
+        onchange="window.handleScenarioSelectChange()"
+      >
+        <option value="">-- None loaded --</option>
+      </select>
+    </div>
+    <div class="flex space-x-2">
+      <button
+        type="button"
+        onclick="window.saveScenarioFromUI()"
+        class="bg-green-600 hover:bg-green-700 text-white text-sm font-semibold py-2 px-3 rounded-lg shadow-md transition duration-150"
+      >
+        💾 Save Scenario
+      </button>
+      <button
+        type="button"
+        onclick="window.deleteSelectedScenario()"
+        class="bg-red-500 hover:bg-red-600 text-white text-sm font-semibold py-2 px-3 rounded-lg shadow-md transition duration-150"
+      >
+        🗑 Delete
+      </button>
+    </div>
+  </div>
+</div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <!-- Acquisition -->
@@ -429,7 +474,10 @@
     let globalResults = {};
     let unitIdCounter = 0; 
     let isAuthReady = false; 
-
+    // --- LOCAL STORAGE KEYS ---
+    const LOCAL_STORAGE_KEY_CURRENT = 'mfProforma_current';
+    const LOCAL_STORAGE_KEY_SCENARIOS = 'mfProforma_scenarios';
+    
     // --- DEFAULTS ---
     const defaultState = {
         // PROPERTY IDENTIFICATION FIELDS
@@ -489,7 +537,141 @@
         else if (type === 'error') statusEl.classList.add('text-red-400');
         else statusEl.classList.add('text-yellow-300');
     }
+    // --- LOCAL STORAGE HELPERS (CURRENT SNAPSHOT) ---
 
+    function saveCurrentToLocal() {
+        try {
+            if (!currentData) return;
+            localStorage.setItem(LOCAL_STORAGE_KEY_CURRENT, JSON.stringify(currentData));
+        } catch (e) {
+            console.warn('[LocalStorage] Unable to save current snapshot:', e);
+        }
+    }
+
+    function loadCurrentFromLocal() {
+        try {
+            const raw = localStorage.getItem(LOCAL_STORAGE_KEY_CURRENT);
+            if (!raw) return null;
+            const parsed = JSON.parse(raw);
+            if (!parsed || typeof parsed !== 'object') return null;
+            return parsed;
+        } catch (e) {
+            console.warn('[LocalStorage] Unable to load current snapshot:', e);
+            return null;
+        }
+    }
+
+    // --- LOCAL STORAGE HELPERS (SCENARIOS LIST) ---
+
+    function loadScenarioList() {
+        try {
+            const raw = localStorage.getItem(LOCAL_STORAGE_KEY_SCENARIOS);
+            if (!raw) return [];
+            const parsed = JSON.parse(raw);
+            return Array.isArray(parsed) ? parsed : [];
+        } catch (e) {
+            console.warn('[LocalStorage] Unable to load scenarios:', e);
+            return [];
+        }
+    }
+
+    function saveScenarioList(list) {
+        try {
+            localStorage.setItem(LOCAL_STORAGE_KEY_SCENARIOS, JSON.stringify(list || []));
+        } catch (e) {
+            console.warn('[LocalStorage] Unable to save scenarios:', e);
+        }
+    }
+
+    function refreshScenarioDropdown() {
+        const select = document.getElementById('scenarioSelect');
+        if (!select) return;
+
+        const scenarios = loadScenarioList();
+        const current = select.value;
+
+        select.innerHTML = '<option value="">-- None loaded --</option>';
+
+        scenarios.forEach((s) => {
+            const opt = document.createElement('option');
+            opt.value = String(s.id);
+            opt.textContent =
+                `${s.name || 'Untitled'} (${new Date(s.timestamp).toLocaleString()})`;
+            select.appendChild(opt);
+        });
+
+        if (current && scenarios.some((s) => String(s.id) === current)) {
+            select.value = current;
+        }
+    }
+
+    // --- SCENARIO SAVE / LOAD / DELETE ---
+
+    window.saveScenarioFromUI = function () {
+        if (!currentData) return;
+        const nameInput = document.getElementById('scenarioNameInput');
+        let name = (nameInput?.value || '').trim();
+
+        if (!name) {
+            name = currentData.propertyAddress || 'Untitled Scenario';
+        }
+
+        const scenarios = loadScenarioList();
+        const id = Date.now();
+
+        scenarios.push({
+            id,
+            name,
+            timestamp: Date.now(),
+            data: currentData
+        });
+
+        saveScenarioList(scenarios);
+        refreshScenarioDropdown();
+
+        const select = document.getElementById('scenarioSelect');
+        if (select) select.value = String(id);
+
+        setStatus(`Scenario "${name}" saved locally.`, 'success');
+    };
+
+    window.handleScenarioSelectChange = function () {
+        const select = document.getElementById('scenarioSelect');
+        const id = select?.value;
+        if (!id) return;
+
+        const scenarios = loadScenarioList();
+        const scenario = scenarios.find((s) => String(s.id) === id);
+        if (!scenario) return;
+
+        currentData = scenario.data;
+
+        applyDataToDOMFromLoadedData(currentData);
+        renderUnitMixInput();
+        runAllCalculations();
+        renderAll();
+        saveCurrentToLocal();
+
+        const nameInput = document.getElementById('scenarioNameInput');
+        if (nameInput) nameInput.value = scenario.name || '';
+        setStatus(`Scenario "${scenario.name}" loaded.`, 'info');
+    };
+
+    window.deleteSelectedScenario = function () {
+        const select = document.getElementById('scenarioSelect');
+        const id = select?.value;
+        if (!id) return;
+
+        let scenarios = loadScenarioList();
+        const scenario = scenarios.find((s) => String(s.id) === id);
+        scenarios = scenarios.filter((s) => String(s.id) !== String(id));
+
+        saveScenarioList(scenarios);
+        refreshScenarioDropdown();
+
+        select.value = '';
+        setStatus(`Scenario "${scenario?.name || ''}" deleted.`, 'info');
+    };
     // --- FIREBASE OPERATIONS ---
 
     function getProFormaDocRef() {
@@ -1052,18 +1234,22 @@
         renderAssumptionsTab();
     }
     
-    // Core function for user interaction
-    window.updateAndCalculate = function() {
-        readInputs();
-        runAllCalculations();
-        renderAll();
-        // Only attempt to save if auth is ready
-        if (isAuthReady) {
-            saveDebounced();
-        } else {
-            console.warn("[Update/Calculate] Auth not ready. Skipping save.");
-        }
+// Core function for user interaction
+window.updateAndCalculate = function() {
+    readInputs();
+    runAllCalculations();
+    renderAll();
+
+    // Always save a local snapshot for this browser
+    saveCurrentToLocal();
+
+    // Only attempt to save to Firestore if auth is ready
+    if (isAuthReady) {
+        saveDebounced();
+    } else {
+        console.warn("[Update/Calculate] Auth not ready. Skipping cloud save.");
     }
+}
 
     // --- INITIALIZATION ---
     
@@ -1083,7 +1269,12 @@
             // Set currentData to default state immediately to ensure readInputs doesn't fail
             currentData = JSON.parse(JSON.stringify(defaultState));
             unitIdCounter = defaultState.units.length + 1;
-
+// Try restoring saved local snapshot, if any
+const localSnapshot = loadCurrentFromLocal();
+if (localSnapshot && localSnapshot.units && localSnapshot.units.length > 0) {
+    console.log('[LocalStorage] Restoring last-used scenario.');
+    currentData = localSnapshot;
+}
 
             if (initialAuthToken) {
                 await signInWithCustomToken(auth, initialAuthToken);
@@ -1125,6 +1316,8 @@
             runAllCalculations(); // Run initial calc with defaults
             renderAll();
         }
+        // After Firebase init (success or failure), populate scenario dropdown
+    refreshScenarioDropdown();
     }
 
     window.showTab = function(tabId) {
