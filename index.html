@@ -109,33 +109,38 @@
 
 <div class="report-container">
     <!-- Header Section -->
-   <header class="header-section flex flex-col md:flex-row justify-between items-start md:items-center bg-[#BB2326] text-white p-4 rounded-lg">
-    
-    <!-- Left: Title -->
-    <div>
-        <h1 class="text-2xl font-bold">Multifamily Investment Pro Forma</h1>
-        <p class="text-sm">Cloud-Backed 5-Year Analysis (Data saved automatically)</p>
-        <p id="statusMessage" class="mt-2 text-xs font-medium transition duration-300">Initializing...</p>
-    </div>
+   <header class="header-section flex flex-col md:flex-row justify-between items-center bg-[#0A1A44] text-white border-b-4 border-[#CFAF66] py-4 px-6">
 
-    <!-- Middle: Branding block -->
-    <div class="mt-4 md:mt-0 text-white md:text-center leading-tight">
-        <p class="font-semibold tracking-wide uppercase">
+    <!-- LEFT: Brand block -->
+    <div class="text-center md:text-left leading-tight mb-4 md:mb-0">
+        <p class="text-lg md:text-xl font-semibold tracking-wide uppercase">
             Jonathan Sarrow
         </p>
-        <p class="text-xs">Realtor® | DRE# 02151231</p>
-        <p class="text-xs">818-469-5309 · jonathan@sheishoperealty.com</p>
+        <p class="text-sm md:text-base">
+            Realtor® | DRE# 02151231
+        </p>
+        <p class="text-sm md:text-base">
+            818-469-5309 · jonathan@sheishoperealty.com
+        </p>
     </div>
+    <!-- RIGHT: Title + Status -->
+    <div class="text-center md:text-right leading-tight mb-4 md:mb-0 md:flex-1 md:pr-6">
+        <h1 class="text-xl md:text-2xl font-bold whitespace-nowrap">
+            Multifamily Investment Pro Forma
+        </h1>
 
-    <!-- Right: Print button -->
-<div class="mt-4 md:mt-0 flex items-center space-x-4">
-    <button onclick="window.print()"
-        class="text-black font-semibold py-2 px-4 rounded-lg shadow-md transition
-               bg-[#CFAF66] hover:bg-[#B08E3C] border border-[#9C7A2F]">
-        Print/Save PDF
-    </button>
-</div>
-
+        <p id="statusMessage" class="mt-1 text-xs font-medium text-yellow-300 transition duration-300">
+            Enter fields with desired values to save a version
+        </p>
+    </div>
+    <!-- BUTTON -->
+    <div class="mt-4 md:mt-0 flex items-center">
+        <button onclick="window.print()"
+            class="text-black font-semibold py-2 px-4 rounded-lg shadow-md transition
+                   bg-[#CFAF66] hover:bg-[#B08E3C] border border-[#9C7A2F]">
+            Print/Save PDF
+        </button>
+    </div>
 </header>
 
     <!-- Tab Navigation (Hidden during print) -->
