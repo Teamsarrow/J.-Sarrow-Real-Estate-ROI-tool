@@ -29,17 +29,17 @@
             margin-bottom: 20px;
         }
         .header-section {
-            background-color: #BB2326; /* Dark Gray/Blue for header */
+            background-color: #BB2326;
             color: white;
             padding: 20px;
         }
         .input-cell {
-            color: #1e40af; /* Deep Blue for inputs */
+            color: #1e40af;
             font-weight: 600;
             text-align: right;
         }
         .calc-cell {
-            color: #4b5563; /* Gray for standard calculations */
+            color: #4b5563;
             font-weight: 500;
         }
         .kpi-value {
@@ -47,10 +47,10 @@
             font-weight: 700;
         }
         .positive-return {
-            color: #059669; /* Green for good returns */
+            color: #059669;
         }
         .negative-value {
-            color: #dc2626; /* Red for negative or losses */
+            color: #dc2626;
             font-weight: 600;
         }
         .table-header {
@@ -98,7 +98,7 @@
             body { background-color: white; padding: 0; }
             .report-container { box-shadow: none; border-radius: 0; max-width: 100%; }
             .nav-tabs, .print-button-container, .input-form-control, .add-unit-button, #statusMessage {
-                display: none !important; 
+                display: none !important;
             }
             .tab-content { display: block !important; padding: 0 !important; margin: 0; width: 100%; }
             #projections, #assumptions { page-break-before: always; }
@@ -109,127 +109,141 @@
 
 <div class="report-container">
     <!-- Header Section -->
-   <header class="header-section flex flex-col md:flex-row justify-between items-center bg-[#0A1A44] text-white border-b-4 border-[#CFAF66] py-4 px-6">
+    <header class="header-section flex flex-col md:flex-row justify-between items-center bg-[#0A1A44] text-white border-b-4 border-[#CFAF66] py-4 px-6">
 
-    <!-- LEFT: Brand block -->
-    <div class="text-center md:text-left leading-tight mb-4 md:mb-0">
-        <p class="text-lg md:text-xl font-semibold tracking-wide uppercase">
-            Jonathan Sarrow
-        </p>
-        <p class="text-sm md:text-base">
-            Realtor® | DRE# 02151231
-        </p>
-        <p class="text-sm md:text-base">
-            818-469-5309 · jonathan@sheishoperealty.com
-        </p>
-    </div>
-    <!-- RIGHT: Title + Status -->
-    <div class="text-center md:text-right leading-tight mb-4 md:mb-0 md:flex-1 md:pr-6">
-        <h1 class="text-xl md:text-2xl font-bold whitespace-nowrap">
-            Multifamily Investment Pro Forma
-        </h1>
+        <!-- LEFT: Brand block -->
+        <div class="text-center md:text-left leading-tight mb-4 md:mb-0">
+            <p class="text-lg md:text-xl font-semibold tracking-wide uppercase">
+                Jonathan Sarrow
+            </p>
+            <p class="text-sm md:text-base">
+                Realtor® | DRE# 02151231
+            </p>
+            <p class="text-sm md:text-base">
+                818-469-5309 · jonathan@sheishoperealty.com
+            </p>
+        </div>
 
-        <p id="statusMessage" class="mt-1 text-xs font-medium text-yellow-300 transition duration-300">
-            Enter fields with desired values to save a version
-        </p>
-    </div>
-    <!-- BUTTON -->
-    <div class="mt-4 md:mt-0 flex items-center">
-        <button onclick="window.print()"
-            class="text-black font-semibold py-2 px-4 rounded-lg shadow-md transition
-                   bg-[#CFAF66] hover:bg-[#B08E3C] border border-[#9C7A2F]">
-            Print/Save PDF
-        </button>
-    </div>
-</header>
+        <!-- RIGHT: Title + Status -->
+        <div class="text-center md:text-right leading-tight mb-4 md:mb-0 md:flex-1 md:pr-6">
+            <h1 class="text-xl md:text-2xl font-bold whitespace-nowrap">
+                Multifamily Investment Pro Forma
+            </h1>
+
+            <p id="statusMessage" class="mt-1 text-xs font-medium text-yellow-300 transition duration-300">
+                Enter fields with desired values to save a version
+            </p>
+        </div>
+
+        <!-- BUTTON -->
+        <div class="mt-4 md:mt-0 flex items-center">
+            <button onclick="window.print()"
+                    class="text-black font-semibold py-2 px-4 rounded-lg shadow-md transition
+                           bg-[#CFAF66] hover:bg-[#B08E3C] border border-[#9C7A2F]">
+                Print/Save PDF
+            </button>
+        </div>
+    </header>
 
     <!-- Tab Navigation (Hidden during print) -->
     <div class="nav-tabs border-b border-gray-200 bg-gray-50">
-        <button class="tab-button" onclick="showTab('summary')">1. Year 1 Summary</button>
-        <button class="tab-button" onclick="showTab('projections')">2. 5-Year Projections</button>
-        <button class="tab-button active" onclick="showTab('assumptions')">3. Inputs & Assumptions</button>
+        <button class="tab-button" onclick="showTab('assumptions')">1. Inputs &amp; Assumptions</button>
+        <button class="tab-button" onclick="showTab('summary')">2. Year 1 Summary</button>
+        <button class="tab-button" onclick="showTab('projections')">3. Five-Year Projections</button>
     </div>
 
     <!-- Tab Content -->
     <main class="p-5">
 
-        <!-- Tab 1: Year 1 Summary -->
+        <!-- Tab 2 (now): Year 1 Summary -->
         <div id="summary" class="tab-content hidden">
-            <h1 class="text-xl font-bold mb-4 print:hidden">1. Year 1 Summary & Key Metrics</h1>
-            <h1 class="text-xl font-bold mb-4 hidden print:block">1. Year 1 Summary & Key Metrics</h1>
-            
-            <!-- Property Header Card: Displays the Property Address and MLS Number -->
+            <h1 class="text-xl font-bold mb-4 print:hidden">2. Year 1 Summary &amp; Key Metrics</h1>
+            <h1 class="text-xl font-bold mb-4 hidden print:block">2. Year 1 Summary &amp; Key Metrics</h1>
+
+            <!-- Property Header Card -->
             <div class="bg-blue-600 text-white p-4 rounded-lg shadow-xl mb-6">
                 <h2 id="summaryPropertyAddress" class="text-2xl font-extrabold truncate"></h2>
-                <p class="text-blue-200 text-sm mt-1">MLS #: <span id="summaryMLSNumber" class="font-semibold">N/A</span></p>
+                <p class="text-blue-200 text-sm mt-1">
+                    MLS #:
+                    <span id="summaryMLSNumber" class="font-semibold">N/A</span>
+                </p>
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-
-                <!-- Primary Data Inputs -->
+                <!-- Primary Summary Blocks -->
                 <div class="lg:col-span-2 space-y-4">
-                    <h2 class="text-2xl font-semibold text-gray-800 border-b pb-2 mb-4">Initial Investment & Year 1 Cash Flow</h2>
-                    
-                    <!-- Unit Mix Table -->
+                    <h2 class="text-2xl font-semibold text-gray-800 border-b pb-2 mb-4">
+                        Initial Investment &amp; Year 1 Cash Flow
+                    </h2>
+
+                    <!-- Operating Summary -->
                     <div class="input-group">
-                        <h3 class="text-lg font-bold mb-3">Unit Mix & Income</h3>
-                        <table class="min-w-full divide-y divide-gray-200">
-                            <thead class="table-header">
-                                <tr>
-                                    <th class="p-2">Unit Type</th>
-                                    <th class="p-2">Beds</th>
-                                    <th class="p-2">Baths</th>
-                                    <th class="p-2 text-right"># Units</th>
-                                    <th class="p-2">Monthly Rent ($)</th>
-                                    <th class="p-2 text-right">Annual Rent ($)</th>
-                                    <th class="p-2 text-center input-form-control">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody class="divide-y divide-gray-200" id="unitMixBody">
-                                <!-- Data populated by JS -->
-                            </tbody>
-                            <tfoot>
-                                <tr class="font-bold bg-blue-50/50">
-                                    <td colspan="5" class="p-2 text-right">Gross Annual Rent (GPI)</td>
-                                    <td class="p-2 text-right text-lg text-blue-700" id="gpiOutput"></td>
-                                    <td class="p-2 input-form-control text-center">
-                                        <button onclick="addUnit()" class="add-unit-button bg-blue-500 hover:bg-blue-600 text-white text-xs py-1 px-2 rounded-md transition duration-150">
-                                            + Add Unit
-                                        </button>
-                                    </td>
-                                </tr>
-                            </tfoot>
-                        </table>
+                        <h3 class="text-lg font-bold mb-3">Operating Summary</h3>
+                        <div class="grid grid-cols-2 gap-4">
+                            <p class="font-medium">Gross Potential Income (GPI):</p>
+                            <p class="text-right calc-cell" id="calcGPI"></p>
+
+                            <p class="font-medium">
+                                Vacancy Loss (<span id="vacancyRateDisplay"></span>%):
+                            </p>
+                            <p class="text-right negative-value" id="calcVacancy"></p>
+
+                            <p class="font-bold border-t pt-2">Effective Gross Income (EGI):</p>
+                            <p class="text-right font-bold border-t pt-2 text-lg text-green-700" id="calcEGI"></p>
+                        </div>
                     </div>
 
-                    <!-- Financial Summary -->
-                    <div class="space-y-4">
-                        <div class="input-group">
-                            <h3 class="text-lg font-bold mb-3">Operating Summary</h3>
-                            <div class="grid grid-cols-2 gap-4">
-                                <p class="font-medium">Gross Potential Income (GPI):</p> <p class="text-right calc-cell" id="calcGPI"></p>
-                                <p class="font-medium">Vacancy Loss (<span id="vacancyRateDisplay"></span>%):</p> <p class="text-right negative-value" id="calcVacancy"></p>
-                                <p class="font-bold border-t pt-2">Effective Gross Income (EGI):</p> <p class="text-right font-bold border-t pt-2 text-lg text-green-700" id="calcEGI"></p>
-                            </div>
-                        </div>
+                    <!-- Expenses and Debt Service -->
+                    <div class="input-group">
+                        <h3 class="text-lg font-bold mb-3">Expenses and Debt Service</h3>
+                        <div class="grid grid-cols-2 gap-4">
+                            <p class="font-medium">Total Operating Expenses (OpEx):</p>
+                            <p class="text-right negative-value" id="calcOpEx"></p>
 
-                        <div class="input-group">
-                            <h3 class="text-lg font-bold mb-3">Expenses and Debt Service</h3>
-                            <div class="grid grid-cols-2 gap-4">
-                                <p class="font-medium">Total Operating Expenses (OpEx):</p> <p class="text-right negative-value" id="calcOpEx"></p>
-                                <p class="font-bold border-t pt-2">Net Operating Income (NOI):</p> <p class="text-right font-bold border-t pt-2 text-lg text-green-700" id="calcNOI"></p>
-                                
-                                <p class="font-medium mt-4 border-t pt-2">Annual Debt Service (P&amp;I):</p> <p class="text-right negative-value mt-4 border-t pt-2" id="calcADS"></p>
-                                <p class="font-bold pt-2">Annual Cash Flow:</p> <p class="text-right font-bold pt-2 text-xl" id="calcCashFlow"></p>
-                            </div>
+                            <p class="font-bold border-t pt-2">Net Operating Income (NOI):</p>
+                            <p class="text-right font-bold border-t pt-2 text-lg text-green-700" id="calcNOI"></p>
+
+                            <p class="font-medium mt-4 border-t pt-2">Annual Debt Service (P&amp;I):</p>
+                            <p class="text-right negative-value mt-4 border-t pt-2" id="calcADS"></p>
+
+                            <p class="font-bold pt-2">Annual Cash Flow:</p>
+                            <p class="text-right font-bold pt-2 text-xl" id="calcCashFlow"></p>
                         </div>
+                    </div>
+
+                    <!-- Unit Mix Snapshot (OUTPUT ONLY) -->
+                    <div class="input-group">
+                        <h3 class="text-lg font-bold mb-3">Unit Mix &amp; Income (Snapshot)</h3>
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="table-header">
+                            <tr>
+                                <th class="p-2">Unit Type</th>
+                                <th class="p-2 text-center">Beds</th>
+                                <th class="p-2 text-center">Baths</th>
+                                <th class="p-2 text-right"># Units</th>
+                                <th class="p-2 text-right">Monthly Rent ($)</th>
+                                <th class="p-2 text-right">Annual Rent ($)</th>
+                            </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200" id="unitMixSummaryBody">
+                            <!-- Filled by JS -->
+                            </tbody>
+                            <tfoot>
+                            <tr class="font-bold bg-blue-50/50">
+                                <td colspan="5" class="p-2 text-right">Gross Annual Rent (GPI)</td>
+                                <td class="p-2 text-right text-lg text-blue-700" id="gpiOutput"></td>
+                            </tr>
+                            </tfoot>
+                        </table>
                     </div>
                 </div>
 
                 <!-- KPI and Investment Summary -->
                 <div class="lg:col-span-1">
                     <div class="summary-box bg-blue-50 h-full">
-                        <h2 class="text-2xl font-semibold text-blue-800 border-b border-blue-200 pb-2 mb-4">Investment Summary (Year 1)</h2>
+                        <h2 class="text-2xl font-semibold text-blue-800 border-b border-blue-200 pb-2 mb-4">
+                            Investment Summary (Year 1)
+                        </h2>
                         <div class="space-y-5">
                             <p class="font-medium">Purchase Price:</p>
                             <p class="text-right kpi-value text-blue-900" id="summaryPurchasePrice"></p>
@@ -238,165 +252,229 @@
                             <p class="text-right kpi-value text-blue-900" id="summaryCashInvested"></p>
 
                             <hr class="border-blue-200"/>
-                            
-                            <!-- KPIs -->
+
                             <h3 class="text-xl font-bold text-gray-700 pt-2">Key Performance Indicators</h3>
-                            
+
                             <p class="font-medium text-lg">
                                 Cash-on-Cash Return
-                                <span class="text-xs text-gray-500 ml-1" title="Year 1 cash flow divided by total cash invested">(Year 1 CF ÷ Cash In)</span>
+                                <span class="text-xs text-gray-500 ml-1"
+                                      title="Year 1 cash flow divided by total cash invested">
+                                    (Year 1 CF ÷ Cash In)
+                                </span>
                             </p>
                             <p class="text-right kpi-value positive-return" id="summaryCoC"></p>
 
                             <p class="font-medium text-lg">
                                 Capitalization Rate (Cap Rate)
-                                <span class="text-xs text-gray-500 ml-1" title="NOI divided by purchase price">(NOI ÷ Price)</span>
+                                <span class="text-xs text-gray-500 ml-1"
+                                      title="NOI divided by purchase price">
+                                    (NOI ÷ Price)
+                                </span>
                             </p>
                             <p class="text-right kpi-value" id="summaryCapRate"></p>
-                            
+
                             <p class="font-medium text-lg">
                                 Debt Service Coverage Ratio (DSCR)
-                                <span class="text-xs text-gray-500 ml-1" title="NOI divided by annual debt service">(NOI ÷ ADS)</span>
+                                <span class="text-xs text-gray-500 ml-1"
+                                      title="NOI divided by annual debt service">
+                                    (NOI ÷ ADS)
+                                </span>
                             </p>
                             <p class="text-right kpi-value" id="summaryDSCR"></p>
                             <p class="text-xs text-right" id="dscrInterpretation"></p>
 
-                             <hr class="border-blue-200"/>
+                            <hr class="border-blue-200"/>
 
                             <p class="font-medium text-lg pt-2">Projected Annual Cash Flow:</p>
                             <p class="text-right kpi-value" id="summaryCashFlow"></p>
-
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Tab 2: 5-Year Projections -->
+        <!-- Tab 3: 5-Year Projections -->
         <div id="projections" class="tab-content hidden">
-            <h2 class="text-2xl font-semibold text-gray-800 border-b pb-2 mb-4">2. 5-Year Projections (Includes Growth)</h2>
+            <h2 class="text-2xl font-semibold text-gray-800 border-b pb-2 mb-4">
+                3. 5-Year Projections (Includes Growth)
+            </h2>
 
             <div class="overflow-x-auto">
                 <table class="min-w-full divide-y divide-gray-300">
                     <thead class="table-header sticky top-0 bg-white shadow-sm">
-                        <tr>
-                            <th class="p-3">Metric</th>
-                            <th class="p-3 text-center">Year 1 (Initial)</th>
-                            <th class="p-3 text-center">Year 2</th>
-                            <th class="p-3 text-center">Year 3</th>
-                            <th class="p-3 text-center">Year 4</th>
-                            <th class="p-3 text-center">Year 5 (Sale)</th>
-                        </tr>
+                    <tr>
+                        <th class="p-3">Metric</th>
+                        <th class="p-3 text-center">Year 1 (Initial)</th>
+                        <th class="p-3 text-center">Year 2</th>
+                        <th class="p-3 text-center">Year 3</th>
+                        <th class="p-3 text-center">Year 4</th>
+                        <th class="p-3 text-center">Year 5 (Sale)</th>
+                    </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-100" id="projectionTableBody">
-                        <!-- Data populated by JS -->
+                    <!-- Data populated by JS -->
                     </tbody>
                 </table>
             </div>
 
             <div class="mt-8 summary-box bg-red-50 border-red-200">
-                <h3 class="text-xl font-bold text-red-700 mb-3">Exit Analysis & Total Return</h3>
+                <h3 class="text-xl font-bold text-red-700 mb-3">Exit Analysis &amp; Total Return</h3>
                 <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
-                    <p class="font-medium">Exit Cap Rate:</p> <p class="text-right calc-cell" id="exitCapRate"></p>
-                    <p class="font-medium">Projected Sale Price:</p> <p class="text-right text-blue-700 font-bold" id="projectedSalePrice"></p>
-                    <p class="font-medium">Debt Remaining (Year 5):</p> <p class="text-right negative-value font-bold" id="remainingDebt"></p>
-                    <p class="font-medium">Sale Proceeds After Debt/Costs:</p> <p class="text-right positive-return text-2xl font-extrabold" id="saleProceeds"></p>
+                    <p class="font-medium">Exit Cap Rate:</p>
+                    <p class="text-right calc-cell" id="exitCapRate"></p>
+
+                    <p class="font-medium">Projected Sale Price:</p>
+                    <p class="text-right text-blue-700 font-bold" id="projectedSalePrice"></p>
+
+                    <p class="font-medium">Debt Remaining (Year 5):</p>
+                    <p class="text-right negative-value font-bold" id="remainingDebt"></p>
+
+                    <p class="font-medium">Sale Proceeds After Debt/Costs:</p>
+                    <p class="text-right positive-return text-2xl font-extrabold" id="saleProceeds"></p>
                 </div>
-                
+
                 <hr class="my-4 border-red-300"/>
 
                 <div class="grid grid-cols-2 gap-4">
-                     <p class="font-medium text-lg">Equity Multiple:</p> <p class="text-right kpi-value" id="equityMultiple"></p>
-                     <p class="font-medium text-lg">Internal Rate of Return (IRR):</p> <p class="text-right kpi-value" id="projectIRR"></p>
+                    <p class="font-medium text-lg">Equity Multiple:</p>
+                    <p class="text-right kpi-value" id="equityMultiple"></p>
+
+                    <p class="font-medium text-lg">Internal Rate of Return (IRR):</p>
+                    <p class="text-right kpi-value" id="projectIRR"></p>
                 </div>
             </div>
         </div>
 
-        <!-- Tab 3: Inputs and Assumptions (NOW INTERACTIVE) -->
+        <!-- Tab 1: Inputs and Assumptions (NOW INTERACTIVE) -->
         <div id="assumptions" class="tab-content">
-            <h2 class="text-2xl font-semibold text-gray-800 border-b pb-2 mb-2">3. Core Inputs & Financial Assumptions</h2>
+            <h2 class="text-2xl font-semibold text-gray-800 border-b pb-2 mb-2">
+                1. Core Inputs &amp; Financial Assumptions
+            </h2>
             <p class="text-sm text-gray-600 mb-4">
-                Start here: set your property, loan, and operating assumptions. The other tabs will update automatically.
+                Start here: set your property, loan, unit mix, and operating assumptions. The other tabs will update
+                automatically.
             </p>
 
-            <!-- Property Details Section (Where Property Address and MLS are input) -->
+            <!-- Property Details Section -->
             <div class="input-group bg-indigo-50">
                 <h3 class="text-lg font-bold mb-3 text-indigo-700">Property Identification</h3>
                 <div class="space-y-2">
                     <label class="block">Property Address:
-                        <input type="text" id="inputPropertyAddress" class="data-input-text" value="123 Main St, Anytown, USA" oninput="updateAndCalculate()">
+                        <input type="text" id="inputPropertyAddress" class="data-input-text"
+                               value="123 Main St, Anytown, USA" oninput="updateAndCalculate()">
                     </label>
                     <label class="block">MLS Number:
-                        <input type="text" id="inputMLSNumber" class="data-input-text" value="MLS-1234567" oninput="updateAndCalculate()">
+                        <input type="text" id="inputMLSNumber" class="data-input-text"
+                               value="MLS-1234567" oninput="updateAndCalculate()">
                     </label>
                 </div>
             </div>
 
             <!-- Scenario Management -->
-<div class="input-group bg-green-50 mt-4">
-  <h3 class="text-lg font-bold mb-3 text-green-700">Scenario Management</h3>
-  <p class="text-xs text-gray-600 mb-2">
-    Save different versions of this pro forma (e.g., “Seller’s Ask”, “My Offer”, “Value-Add Plan”)
-    and reload them later on this device.
-  </p>
-  <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
-    <div>
-      <label class="block text-sm font-medium mb-1">Scenario Name</label>
-      <input
-        type="text"
-        id="scenarioNameInput"
-        class="data-input-text"
-        placeholder="e.g., 8-unit – My Offer"
-      />
-    </div>
-    <div>
-      <label class="block text-sm font-medium mb-1">Saved Scenarios</label>
-      <select
-        id="scenarioSelect"
-        class="data-input-text"
-        onchange="window.handleScenarioSelectChange()"
-      >
-        <option value="">-- None loaded --</option>
-      </select>
-    </div>
-    <div class="flex space-x-2">
-      <button
-        type="button"
-        onclick="window.saveScenarioFromUI()"
-        class="bg-green-600 hover:bg-green-700 text-white text-sm font-semibold py-2 px-3 rounded-lg shadow-md transition duration-150"
-      >
-        💾 Save Scenario
-      </button>
-      <button
-        type="button"
-        onclick="window.deleteSelectedScenario()"
-        class="bg-red-500 hover:bg-red-600 text-white text-sm font-semibold py-2 px-3 rounded-lg shadow-md transition duration-150"
-      >
-        🗑 Delete
-      </button>
-    </div>
-  </div>
-</div>
+            <div class="input-group bg-green-50 mt-4">
+                <h3 class="text-lg font-bold mb-3 text-green-700">Scenario Management</h3>
+                <p class="text-xs text-gray-600 mb-2">
+                    Save different versions of this pro forma (e.g., “Seller’s Ask”, “My Offer”, “Value-Add Plan”)
+                    and reload them later on this device.
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
+                    <div>
+                        <label class="block text-sm font-medium mb-1">Scenario Name</label>
+                        <input
+                                type="text"
+                                id="scenarioNameInput"
+                                class="data-input-text"
+                                placeholder="e.g., 8-unit – My Offer"
+                        />
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-1">Saved Scenarios</label>
+                        <select
+                                id="scenarioSelect"
+                                class="data-input-text"
+                                onchange="window.handleScenarioSelectChange()"
+                        >
+                            <option value="">-- None loaded --</option>
+                        </select>
+                    </div>
+                    <div class="flex space-x-2">
+                        <button
+                                type="button"
+                                onclick="window.saveScenarioFromUI()"
+                                class="bg-green-600 hover:bg-green-700 text-white text-sm font-semibold py-2 px-3 rounded-lg shadow-md transition duration-150"
+                        >
+                            💾 Save Scenario
+                        </button>
+                        <button
+                                type="button"
+                                onclick="window.deleteSelectedScenario()"
+                                class="bg-red-500 hover:bg-red-600 text-white text-sm font-semibold py-2 px-3 rounded-lg shadow-md transition duration-150"
+                        >
+                            🗑 Delete
+                        </button>
+                    </div>
+                </div>
+            </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Unit Mix (INPUTS) -->
+            <div class="input-group bg-blue-50 mt-4">
+                <h3 class="text-lg font-bold mb-3 text-blue-800">Unit Mix (Inputs)</h3>
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="table-header">
+                    <tr>
+                        <th class="p-2">Unit Type</th>
+                        <th class="p-2">Beds</th>
+                        <th class="p-2">Baths</th>
+                        <th class="p-2 text-right"># Units</th>
+                        <th class="p-2 text-right">Monthly Rent ($)</th>
+                        <th class="p-2 text-right">Annual Rent ($)</th>
+                        <th class="p-2 text-center input-form-control">Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200" id="unitMixBody">
+                    <!-- Rows populated by renderUnitMixInput() -->
+                    </tbody>
+                    <tfoot>
+                    <tr class="font-bold bg-blue-50/50">
+                        <td colspan="5" class="p-2 text-right">Gross Annual Rent (GPI)</td>
+                        <td class="p-2 text-right text-lg text-blue-700" id="gpiInputTabOutput"></td>
+                        <td class="p-2 input-form-control text-center">
+                            <button onclick="addUnit()"
+                                    class="add-unit-button bg-blue-500 hover:bg-blue-600 text-white text-xs py-1 px-2 rounded-md transition duration-150">
+                                + Add Unit
+                            </button>
+                        </td>
+                    </tr>
+                    </tfoot>
+                </table>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-4">
                 <!-- Acquisition -->
                 <div class="input-group bg-gray-50">
                     <h3 class="text-lg font-bold mb-3 text-gray-700">Acquisition Details</h3>
                     <div class="space-y-2">
                         <label class="block">Purchase Price ($):
-                            <input type="number" id="inputPurchasePrice" class="data-input" value="1250000" oninput="updateAndCalculate()" min="1">
+                            <input type="number" id="inputPurchasePrice" class="data-input" value="1200000"
+                                   oninput="updateAndCalculate()" min="1">
                         </label>
                         <label class="block">Down Payment (%):
-                            <input type="number" id="inputDownPaymentPct" class="data-input" value="25" oninput="updateAndCalculate()" min="1" max="100">
+                            <input type="number" id="inputDownPaymentPct" class="data-input" value="20"
+                                   oninput="updateAndCalculate()" min="1" max="100">
                         </label>
                         <label class="block">Closing Costs ($):
-                            <input type="number" id="inputClosingCosts" class="data-input" value="30000" oninput="updateAndCalculate()" min="0">
+                            <input type="number" id="inputClosingCosts" class="data-input" value="20000"
+                                   oninput="updateAndCalculate()" min="0">
                         </label>
                         <label class="block">Initial CapEx/Repairs ($):
-                            <input type="number" id="inputCapEx" class="data-input" value="10000" oninput="updateAndCalculate()" min="0">
+                            <input type="number" id="inputCapEx" class="data-input" value="10000"
+                                   oninput="updateAndCalculate()" min="0">
                         </label>
                         <hr class="my-2 border-gray-300"/>
-                        <p class="font-bold">Total Cash Invested: <span class="float-right text-blue-700" id="inputCashInvested"></span></p>
+                        <p class="font-bold">
+                            Total Cash Invested:
+                            <span class="float-right text-blue-700" id="inputCashInvested"></span>
+                        </p>
                     </div>
                 </div>
 
@@ -404,71 +482,95 @@
                 <div class="input-group bg-gray-50">
                     <h3 class="text-lg font-bold mb-3 text-gray-700">Loan Parameters</h3>
                     <div class="space-y-2">
-                        <p>Loan Amount: <span class="float-right calc-cell" id="inputLoanAmount"></span></p>
+                        <p>
+                            Loan Amount:
+                            <span class="float-right calc-cell" id="inputLoanAmount"></span>
+                        </p>
                         <label class="block">Interest Rate (Annual %):
-                            <input type="number" id="inputInterestRate" class="data-input" value="5.75" oninput="updateAndCalculate()" min="0.1" step="0.1">
+                            <input type="number" id="inputInterestRate" class="data-input" value="6.5"
+                                   oninput="updateAndCalculate()" min="0.1" step="0.1">
                         </label>
                         <label class="block">Loan Term (Years):
-                            <input type="number" id="inputLoanTerm" class="data-input" value="30" oninput="updateAndCalculate()" min="5" step="1">
+                            <input type="number" id="inputLoanTerm" class="data-input" value="30"
+                                   oninput="updateAndCalculate()" min="5" step="1">
                         </label>
-                        <p>Monthly Payment (P&amp;I): <span class="float-right calc-cell font-bold text-red-600" id="inputMonthlyPmt"></span></p>
-                        <p>Annual Debt Service (ADS): <span class="float-right calc-cell" id="inputADS"></span></p>
+                        <p>
+                            Monthly Payment (P&amp;I):
+                            <span class="float-right calc-cell font-bold text-red-600" id="inputMonthlyPmt"></span>
+                        </p>
+                        <p>
+                            Annual Debt Service (ADS):
+                            <span class="float-right calc-cell" id="inputADS"></span>
+                        </p>
                         <hr class="my-2 border-gray-300"/>
-                        <p class="font-bold">Total Payments (Loan Term): <span class="float-right text-red-600" id="inputTotalPayments"></span></p>
+                        <p class="font-bold">
+                            Total Payments (Loan Term):
+                            <span class="float-right text-red-600" id="inputTotalPayments"></span>
+                        </p>
                     </div>
                 </div>
-                
+
                 <!-- Growth & Sale Assumptions -->
                 <div class="input-group bg-yellow-50">
-                    <h3 class="text-lg font-bold mb-3 text-red-700">Growth & Exit Assumptions</h3>
+                    <h3 class="text-lg font-bold mb-3 text-red-700">Growth &amp; Exit Assumptions</h3>
                     <div class="space-y-2">
                         <label class="block">Holding Period (Years):
-                            <input type="number" id="inputHoldPeriod" class="data-input" value="5" oninput="updateAndCalculate()" min="1" max="30" step="1">
+                            <input type="number" id="inputHoldPeriod" class="data-input" value="5"
+                                   oninput="updateAndCalculate()" min="1" max="30" step="1">
                         </label>
                         <label class="block">Vacancy Rate (%):
-                            <input type="number" id="inputVacancyRate" class="data-input" value="4" oninput="updateAndCalculate()" min="0" step="0.5">
+                            <input type="number" id="inputVacancyRate" class="data-input" value="3"
+                                   oninput="updateAndCalculate()" min="0" step="0.5">
                         </label>
                         <label class="block">Rent Increase (Annual %):
-                            <input type="number" id="inputRentIncrease" class="data-input" value="3" oninput="updateAndCalculate()" min="0" step="0.1">
+                            <input type="number" id="inputRentIncrease" class="data-input" value="2"
+                                   oninput="updateAndCalculate()" min="0" step="0.1">
                         </label>
                         <label class="block">Expense Inflation (Annual %):
-                            <input type="number" id="inputExpenseIncrease" class="data-input" value="3" oninput="updateAndCalculate()" min="0" step="0.1">
+                            <input type="number" id="inputExpenseIncrease" class="data-input" value="3"
+                                   oninput="updateAndCalculate()" min="0" step="0.1">
                         </label>
                         <label class="block">Exit Cap Rate (%):
-                            <input type="number" id="inputExitCapRate" class="data-input" value="6.5" oninput="updateAndCalculate()" min="0.1" step="0.1">
+                            <input type="number" id="inputExitCapRate" class="data-input" value="6.5"
+                                   oninput="updateAndCalculate()" min="0.1" step="0.1">
                         </label>
                         <label class="block">Selling Costs (%):
-                            <input type="number" id="inputSellingCosts" class="data-input" value="5" oninput="updateAndCalculate()" min="0" step="0.1">
+                            <input type="number" id="inputSellingCosts" class="data-input" value="5"
+                                   oninput="updateAndCalculate()" min="0" step="0.1">
                         </label>
                     </div>
                 </div>
-
             </div>
 
-             <div class="input-group mt-6">
+            <div class="input-group mt-6">
                 <h3 class="text-lg font-bold mb-3 text-gray-700">Operating Expense Details (Year 1)</h3>
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
                     <label class="block">Property Tax Rate (% of Price):
-                        <input type="number" id="inputTaxRate" class="data-input" value="1.25" oninput="updateAndCalculate()" min="0" step="0.01">
+                        <input type="number" id="inputTaxRate" class="data-input" value="1.25"
+                               oninput="updateAndCalculate()" min="0" step="0.01">
                         <p class="text-xs text-right text-gray-500 mt-1">
-                            Year 1 Tax: <span class="text-blue-600 font-semibold" id="outputAnnualTaxes"></span>
+                            Year 1 Tax:
+                            <span class="text-blue-600 font-semibold" id="outputAnnualTaxes"></span>
                         </p>
                     </label>
                     <label class="block">Annual Insurance ($):
-                        <input type="number" id="inputInsurance" class="data-input" value="1200" oninput="updateAndCalculate()" min="0">
+                        <input type="number" id="inputInsurance" class="data-input" value="3200"
+                               oninput="updateAndCalculate()" min="0">
                     </label>
                     <label class="block">Management Fee (% of EGI):
-                        <input type="number" id="inputMgmtFeePct" class="data-input" value="5" oninput="updateAndCalculate()" min="0" max="100" step="0.1">
+                        <input type="number" id="inputMgmtFeePct" class="data-input" value="3"
+                               oninput="updateAndCalculate()" min="0" max="100" step="0.1">
                         <p class="text-xs text-right text-gray-500 mt-1">
-                            Year 1 Fee: <span class="text-blue-600 font-semibold" id="outputMgmtFee"></span>
+                            Year 1 Fee:
+                            <span class="text-blue-600 font-semibold" id="outputMgmtFee"></span>
                         </p>
                     </label>
                     <label class="block">Maintenance/Reserves ($):
-                        <input type="number" id="inputMaintenance" class="data-input" value="5000" oninput="updateAndCalculate()" min="0">
+                        <input type="number" id="inputMaintenance" class="data-input" value="5000"
+                               oninput="updateAndCalculate()" min="0">
                     </label>
                 </div>
             </div>
-
         </div>
 
     </main>
@@ -483,31 +585,32 @@
     // --- GLOBAL FIREBASE/STATE VARIABLES ---
     let db;
     let auth;
-    let userId = null; 
+    let userId = null;
     const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
-    
+
     // Path: /artifacts/{appId}/public/data/proformas/main_model (Public/Shared Data)
     const PROFORMA_DOC_ID = 'main_model';
 
     // Initialize currentData to a safe, default structure
-    let currentData = null; 
+    let currentData = null;
     let globalResults = {};
-    let unitIdCounter = 0; 
-    let isAuthReady = false; 
+    let unitIdCounter = 0;
+    let isAuthReady = false;
+
     // --- LOCAL STORAGE KEYS ---
     const LOCAL_STORAGE_KEY_CURRENT = 'mfProforma_current';
     const LOCAL_STORAGE_KEY_SCENARIOS = 'mfProforma_scenarios';
-    
+
     // --- DEFAULTS ---
     const defaultState = {
         // PROPERTY IDENTIFICATION FIELDS
         propertyAddress: "123 Main St, Anytown, USA",
         mlsNumber: "MLS-1234567",
-        
-        purchasePrice: 1250000, downPaymentPct: 0.25, closingCosts: 30000, initialCapEx: 10000,
-        interestRate: 0.0575, loanTermYears: 30, taxRatePct: 0.0125, annualInsurance: 1200,
-        mgmtFeePct: 0.05, annualMaintenance: 5000, annualOtherExpense: 0,
-        holdPeriodYears: 5, vacancyRate: 0.04, rentIncreasePct: 0.03, 
+
+        purchasePrice: 1200000, downPaymentPct: 0.20, closingCosts: 20000, initialCapEx: 10000,
+        interestRate: 0.065, loanTermYears: 30, taxRatePct: 0.0125, annualInsurance: 3200,
+        mgmtFeePct: 0.03, annualMaintenance: 5000, annualOtherExpense: 0,
+        holdPeriodYears: 5, vacancyRate: 0.03, rentIncreasePct: 0.02,
         expenseIncreasePct: 0.03, exitCapRate: 0.065, sellingCostsPct: 0.05,
         // Compressed into types with unitCount
         units: [
@@ -515,7 +618,7 @@
             { id: 2, unitType: "1x1", beds: 1, baths: 1, rent: 1200, unitCount: 2 }
         ]
     };
-    
+
     // --- UTILITIES ---
 
     const formatter = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0 });
@@ -528,25 +631,25 @@
         if (allowDecimals) return formatterDec.format(value);
         return formatter.format(value);
     }
-    
+
     let saveTimeout;
     /** Debounces the save function to prevent excessive database writes */
     function saveDebounced() {
         if (saveTimeout) {
             clearTimeout(saveTimeout);
-            document.getElementById('statusMessage').textContent = 'Saving...';
-            document.getElementById('statusMessage').classList.remove('text-green-400', 'text-red-400');
-            document.getElementById('statusMessage').classList.add('text-yellow-300');
+            const statusEl = document.getElementById('statusMessage');
+            statusEl.textContent = 'Saving...';
+            statusEl.classList.remove('text-green-400', 'text-red-400');
+            statusEl.classList.add('text-yellow-300');
         }
         saveTimeout = setTimeout(() => {
-            // Check for critical data before saving
-            if (!currentData || currentData.units.length === 0) {
-                 console.warn("[Save Debounced] Data structure is null or units are empty. Skipping save.");
-                 setStatus('Data incomplete. Skipping save.', 'info');
-                 return;
+            if (!currentData || !currentData.units || currentData.units.length === 0) {
+                console.warn("[Save Debounced] Data structure is null or units are empty. Skipping save.");
+                setStatus('Data incomplete. Skipping save.', 'info');
+                return;
             }
             saveProForma();
-        }, 800); 
+        }, 800);
     }
 
     function setStatus(message, type = 'info') {
@@ -557,6 +660,7 @@
         else if (type === 'error') statusEl.classList.add('text-red-400');
         else statusEl.classList.add('text-yellow-300');
     }
+
     // --- LOCAL STORAGE HELPERS (CURRENT SNAPSHOT) ---
 
     function saveCurrentToLocal() {
@@ -692,15 +796,15 @@
         select.value = '';
         setStatus(`Scenario "${scenario?.name || ''}" deleted.`, 'info');
     };
+
     // --- FIREBASE OPERATIONS ---
 
     function getProFormaDocRef() {
-        // We use the public path so all users share the same pro forma model
         return doc(db, 'artifacts', appId, 'public', 'data', 'proformas', PROFORMA_DOC_ID);
     }
 
     async function saveProForma() {
-        if (!db || !isAuthReady || !currentData || currentData.units.length === 0) {
+        if (!db || !isAuthReady || !currentData || !currentData.units || currentData.units.length === 0) {
             console.warn("[Firebase] Firestore not ready, not authenticated, or data invalid. Skipping save.");
             return;
         }
@@ -725,14 +829,11 @@
         setStatus('Connecting to Cloud...');
         console.log(`[Firebase Load Status] Attempting to load document from path: ${docPath}`);
 
-
-        // Use onSnapshot for real-time updates
         onSnapshot(docRef, (docSnapshot) => {
             if (docSnapshot.exists()) {
                 const loadedData = docSnapshot.data();
                 console.log("[Firebase Load Status] Document found! Data:", loadedData);
-                
-                // CRITICAL CHECK: Ensure loaded data is not empty/corrupt
+
                 if (!loadedData || !loadedData.units || typeof loadedData.purchasePrice !== 'number') {
                     console.error("[Firebase Load Status] Loaded data is missing key fields or is corrupt. Falling back to defaults.");
                     currentData = JSON.parse(JSON.stringify(defaultState));
@@ -741,8 +842,7 @@
                     currentData = loadedData;
                     setStatus('Loaded from Cloud - Realtime Sync Active', 'success');
                 }
-                
-                // Update unitIdCounter to ensure new units get unique IDs
+
                 const maxUnitId = currentData.units.reduce((max, unit) => Math.max(max, unit.id), 0);
                 unitIdCounter = maxUnitId + 1;
 
@@ -750,22 +850,20 @@
                 renderUnitMixInput();
                 runAllCalculations();
                 renderAll();
-                
+
             } else {
                 console.log("[Firebase Load Status] Document does not exist at path. Initializing with defaults.");
-                // Document does not exist, initialize with defaults and save them
-                currentData = JSON.parse(JSON.stringify(defaultState)); 
+                currentData = JSON.parse(JSON.stringify(defaultState));
                 unitIdCounter = defaultState.units.length + 1;
                 applyDataToDOMFromLoadedData(currentData);
-                renderUnitMixInput(); 
-                updateAndCalculate(); // This will trigger the first save
+                renderUnitMixInput();
+                updateAndCalculate();
                 setStatus('Initialized with default data. Saving...', 'info');
             }
         }, (error) => {
-            console.error("[Firebase Load Status] ERROR listening to document (Check security rules or connection): ", error);
+            console.error("[Firebase Load Status] ERROR listening to document: ", error);
             setStatus('Error loading data! Using defaults.', 'error');
-            // Fallback to defaults if connection fails after initial load
-            currentData = JSON.parse(JSON.stringify(defaultState)); 
+            currentData = JSON.parse(JSON.stringify(defaultState));
             unitIdCounter = defaultState.units.length + 1;
             applyDataToDOMFromLoadedData(currentData);
             renderUnitMixInput();
@@ -777,38 +875,34 @@
     // --- INPUT READING AND UNIT MANAGEMENT ---
 
     function readInputs() {
-        // Ensure currentData is initialized before reading inputs
         if (!currentData) {
             console.warn("[Read Inputs] currentData is null. Initializing with default state.");
             currentData = JSON.parse(JSON.stringify(defaultState));
         }
 
-        // Helper function to safely read numeric value from ID
         const getNum = (id, isPercent = false) => {
             const el = document.getElementById(id);
             if (!el) return 0;
             const val = parseFloat(el.value);
             return isPercent ? (val || 0) / 100 : (val || 0);
         };
-        // Helper function to safely read string value from ID
         const getString = (id) => {
             const el = document.getElementById(id);
             return el ? el.value.trim() : '';
         };
 
         const newData = {
-            // PROPERTY IDENTIFICATION FIELDS
             propertyAddress: getString('inputPropertyAddress'),
             mlsNumber: getString('inputMLSNumber'),
-            
+
             purchasePrice: getNum('inputPurchasePrice'),
             downPaymentPct: getNum('inputDownPaymentPct', true),
             closingCosts: getNum('inputClosingCosts'),
             initialCapEx: getNum('inputCapEx'),
-            
+
             interestRate: getNum('inputInterestRate', true),
             loanTermYears: getNum('inputLoanTerm'),
-            
+
             holdPeriodYears: getNum('inputHoldPeriod'),
             vacancyRate: getNum('inputVacancyRate', true),
             rentIncreasePct: getNum('inputRentIncrease', true),
@@ -820,11 +914,10 @@
             annualInsurance: getNum('inputInsurance'),
             mgmtFeePct: getNum('inputMgmtFeePct', true),
             annualMaintenance: getNum('inputMaintenance'),
-            annualOtherExpense: 0, 
+            annualOtherExpense: 0,
             units: []
         };
-        
-        // Read Unit Mix from the table rows and update units array
+
         newData.units = Array.from(document.querySelectorAll('#unitMixBody tr')).map(row => {
             const rentInput = row.querySelector('input[data-field="rent"]');
             const bedsInput = row.querySelector('input[data-field="beds"]');
@@ -845,26 +938,23 @@
             };
         });
 
-        // Ensure Hold Period doesn't exceed Loan Term
         if (newData.holdPeriodYears > newData.loanTermYears) {
-             newData.holdPeriodYears = newData.loanTermYears;
+            newData.holdPeriodYears = newData.loanTermYears;
         }
-        
-        // Ensure inputs are non-negative where applicable
         if (newData.purchasePrice < 0) newData.purchasePrice = 0;
-        
-        currentData = newData; // Update global state
+
+        currentData = newData;
         return currentData;
     }
-    
-    // Renders the Unit Mix input table. 
+
     function renderUnitMixInput() {
         const unitMixBody = document.getElementById('unitMixBody');
-        if (!unitMixBody || !currentData || !currentData.units) return; 
-        
+        if (!unitMixBody || !currentData || !currentData.units) return;
+
         unitMixBody.innerHTML = currentData.units.map(unit => {
             const count = typeof unit.unitCount === 'number' && unit.unitCount > 0 ? unit.unitCount : 1;
             const typeLabel = unit.unitType || '';
+            const annual = unit.rent * 12 * count;
             return `
             <tr data-unit-id="${unit.id}">
                 <td class="p-2 input-form-control">
@@ -882,7 +972,7 @@
                 <td class="p-2 input-form-control">
                     <input type="number" data-field="rent" class="data-input" value="${unit.rent}" oninput="updateAndCalculate()" min="0">
                 </td>
-                <td class="p-2 text-right calc-cell unit-annual-rent">${format(unit.rent * 12 * count, false, false)}</td>
+                <td class="p-2 text-right calc-cell unit-annual-rent">${format(annual, false, false)}</td>
                 <td class="p-2 text-center input-form-control">
                     <button onclick="removeUnit(${unit.id})" class="bg-red-500 hover:bg-red-600 text-white text-xs py-1 px-2 rounded-md transition duration-150">
                         X
@@ -892,7 +982,7 @@
         `}).join('');
     }
 
-    window.addUnit = function() {
+    window.addUnit = function () {
         if (!currentData) {
             console.error("Cannot add unit: currentData is null.");
             return;
@@ -906,58 +996,51 @@
             rent: 1200,
             unitCount: 1
         });
-        renderUnitMixInput(); 
-        updateAndCalculate(); 
-    }
+        renderUnitMixInput();
+        updateAndCalculate();
+    };
 
-    window.removeUnit = function(id) {
+    window.removeUnit = function (id) {
         if (!currentData || !currentData.units) return;
         currentData.units = currentData.units.filter(unit => unit.id !== id);
-        renderUnitMixInput(); 
-        updateAndCalculate(); 
-    }
-    
-    // Helper function to push data from loaded state to all DOM inputs
+        renderUnitMixInput();
+        updateAndCalculate();
+    };
+
     function applyDataToDOMFromLoadedData(data) {
         if (!data) return;
 
-        // For numeric inputs
         const setInputValue = (id, value, isPercent = false) => {
             const el = document.getElementById(id);
             if (el && typeof value === 'number' && !isNaN(value)) {
                 el.value = isPercent ? (value * 100).toFixed(2) : value;
             } else if (el) {
-                 // Set to default or 0 if value is missing/corrupt
-                 const defaultKey = id.replace('input', '');
-                 let defaultValue = defaultState[defaultKey];
-                 // Check if it's a percentage in defaultState (e.g., 0.25)
-                 if (typeof defaultValue === 'number' && defaultValue >= 0 && defaultValue <= 1) {
-                     defaultValue = defaultValue * 100;
-                 } else if (typeof defaultValue !== 'number') {
-                     defaultValue = 0;
-                 }
-                 el.value = defaultValue;
+                const defaultKey = id.replace('input', '');
+                let defaultValue = defaultState[defaultKey];
+                if (typeof defaultValue === 'number' && defaultValue >= 0 && defaultValue <= 1) {
+                    defaultValue = defaultValue * 100;
+                } else if (typeof defaultValue !== 'number') {
+                    defaultValue = 0;
+                }
+                el.value = defaultValue;
             }
         };
-        // For text inputs
         const setTextInputValue = (id, value) => {
             const el = document.getElementById(id);
             if (el) el.value = value || '';
         };
 
-        // PROPERTY IDENTIFICATION FIELDS
         setTextInputValue('inputPropertyAddress', data.propertyAddress);
         setTextInputValue('inputMLSNumber', data.mlsNumber);
 
-        // Financial Inputs
         setInputValue('inputPurchasePrice', data.purchasePrice);
         setInputValue('inputDownPaymentPct', data.downPaymentPct, true);
         setInputValue('inputClosingCosts', data.closingCosts);
         setInputValue('inputCapEx', data.initialCapEx);
-        
+
         setInputValue('inputInterestRate', data.interestRate, true);
         setInputValue('inputLoanTerm', data.loanTermYears);
-        
+
         setInputValue('inputHoldPeriod', data.holdPeriodYears);
         setInputValue('inputVacancyRate', data.vacancyRate, true);
         setInputValue('inputRentIncrease', data.rentIncreasePct, true);
@@ -970,7 +1053,6 @@
         setInputValue('inputMgmtFeePct', data.mgmtFeePct, true);
         setInputValue('inputMaintenance', data.annualMaintenance);
     }
-
 
     // --- FINANCIAL CALCULATIONS ---
 
@@ -988,24 +1070,27 @@
 
     function runAllCalculations() {
         const data = currentData;
-        if (!data || !data.units || data.units.length === 0 || data.purchasePrice === 0) { 
-            // Minimal data structure needed for calcs when units are zero
-            globalResults = { loanAmount: 0, initialCashInvested: 0, annualDebtService: 0, gpi: 0, egi: 0, noi: 0, totalOpEx: 0, cashFlowY1: 0, remainingDebtY5: 0, projectionData: [], projectedSalePrice: 0, netSaleProceeds: 0, equityMultiple: 0, projectIRR: 0, managementFeeY1: 0 };
-            return; 
+        if (!data || !data.units || data.units.length === 0 || data.purchasePrice === 0) {
+            globalResults = {
+                loanAmount: 0, initialCashInvested: 0, annualDebtService: 0,
+                gpi: 0, egi: 0, noi: 0, totalOpEx: 0, cashFlowY1: 0,
+                remainingDebtY5: 0, projectionData: [], projectedSalePrice: 0,
+                netSaleProceeds: 0, equityMultiple: 0, projectIRR: 0,
+                managementFeeY1: 0
+            };
+            return;
         }
 
-        // Acquisition/Loan
         const downPayment = data.purchasePrice * data.downPaymentPct;
         const loanAmount = data.purchasePrice - downPayment;
         const initialCashInvested = downPayment + data.closingCosts + data.initialCapEx;
-        
+
         const monthlyRate = data.interestRate / 12;
         const totalPayments = data.loanTermYears * 12;
-        
-        const monthlyPmtMagnitude = calculatePmt(monthlyRate, totalPayments, loanAmount);
-        const annualDebtService = monthlyPmtMagnitude * -12; 
 
-        // Income (Year 1) - now uses unitCount
+        const monthlyPmtMagnitude = calculatePmt(monthlyRate, totalPayments, loanAmount);
+        const annualDebtService = monthlyPmtMagnitude * -12;
+
         const gpi = data.units.reduce((sum, unit) => {
             const count = typeof unit.unitCount === 'number' && unit.unitCount > 0 ? unit.unitCount : 1;
             return sum + (unit.rent * 12 * count);
@@ -1013,66 +1098,65 @@
         const vacancyLoss = gpi * data.vacancyRate;
         const egi = gpi - vacancyLoss;
 
-        // Expenses (Year 1)
-        const annualTaxes = data.purchasePrice * data.taxRatePct; 
-        const managementFee = egi * data.mgmtFeePct; 
+        const annualTaxes = data.purchasePrice * data.taxRatePct;
+        const managementFee = egi * data.mgmtFeePct;
         const totalOpEx = annualTaxes + data.annualInsurance + managementFee + data.annualMaintenance + data.annualOtherExpense;
-        
-        // Cash Flow (Year 1)
+
         const noi = egi - totalOpEx;
         const cashFlowY1 = noi + annualDebtService;
 
-        // Remaining Debt at Exit
         const N_paid = data.holdPeriodYears * 12;
         const N_remaining = data.loanTermYears * 12 - N_paid;
-        
-        const remainingDebtY5 = (N_remaining > 0) ? calculateRemainingBalance(monthlyRate, N_remaining, monthlyPmtMagnitude, 0) : 0;
-        
-        // 3. Multi-Year Projection
+
+        const remainingDebtY5 = (N_remaining > 0)
+            ? calculateRemainingBalance(monthlyRate, N_remaining, monthlyPmtMagnitude, 0)
+            : 0;
+
         const projectionData = [];
         let currentGPI = gpi;
-        
+
         for (let y = 1; y <= data.holdPeriodYears; y++) {
             if (y > 1) { currentGPI *= (1 + data.rentIncreasePct); }
-            
+
             const vacancyLoss_y = currentGPI * data.vacancyRate;
             const egi_y = currentGPI - vacancyLoss_y;
-            
+
             const annualTaxesInflated = data.purchasePrice * data.taxRatePct * Math.pow(1 + data.expenseIncreasePct, y - 1);
             const annualInsuranceInflated = data.annualInsurance * Math.pow(1 + data.expenseIncreasePct, y - 1);
             const maintenanceInflated = (data.annualMaintenance + data.annualOtherExpense) * Math.pow(1 + data.expenseIncreasePct, y - 1);
 
             const managementFee_y = egi_y * data.mgmtFeePct;
             const totalOpExAdjusted = annualTaxesInflated + annualInsuranceInflated + managementFee_y + maintenanceInflated;
-            
+
             const noi_y = egi_y - totalOpExAdjusted;
             const cashFlow_y = noi_y + annualDebtService;
 
             projectionData.push({ year: y, gpi: currentGPI, egi: egi_y, opEx: totalOpExAdjusted, noi: noi_y, cashFlow: cashFlow_y });
         }
-        
-        // 4. Exit and Total Return
+
         const finalYearData = projectionData[data.holdPeriodYears - 1] || { noi: 0, cashFlow: 0 };
         const noiYear5 = finalYearData.noi;
-        
+
         const projectedSalePrice = noiYear5 / data.exitCapRate;
         const sellingCosts = projectedSalePrice * data.sellingCostsPct;
         const netSaleProceeds = projectedSalePrice - sellingCosts - remainingDebtY5;
-        
-        // Cash Flow for IRR
+
         const irrCashFlows = [-initialCashInvested];
         projectionData.forEach(d => irrCashFlows.push(d.cashFlow));
-        
-        if (irrCashFlows.length > 1) { irrCashFlows[data.holdPeriodYears] += netSaleProceeds; }
+
+        if (irrCashFlows.length > 1) {
+            irrCashFlows[data.holdPeriodYears] += netSaleProceeds;
+        }
 
         function calculateIRR(cashFlows) {
             const maxIterations = 1000;
             const precision = 0.00001;
-            let guess = 0.1; 
-            if (cashFlows.length === 0 || initialCashInvested === 0) return 0; // Avoid division by zero/empty array
-            
+            let guess = 0.1;
+            if (cashFlows.length === 0 || initialCashInvested === 0) return 0;
+
             for (let i = 0; i < maxIterations; i++) {
-                let npv = 0; let derivative = 0;
+                let npv = 0;
+                let derivative = 0;
                 for (let t = 0; t < cashFlows.length; t++) {
                     npv += cashFlows[t] / Math.pow(1 + guess, t);
                     derivative += -t * cashFlows[t] / Math.pow(1 + guess, t + 1);
@@ -1088,19 +1172,20 @@
         const equityMultiple = initialCashInvested !== 0 ? totalCashBack / initialCashInvested : NaN;
 
         globalResults = {
-            loanAmount, initialCashInvested, monthlyPmtMagnitude, annualDebtService, annualTaxes, 
+            loanAmount, initialCashInvested, monthlyPmtMagnitude, annualDebtService, annualTaxes,
             gpi, egi, noi, totalOpEx, cashFlowY1, remainingDebtY5,
             projectionData, projectedSalePrice, netSaleProceeds, equityMultiple, projectIRR,
-            managementFeeY1: managementFee 
+            managementFeeY1: managementFee
         };
     }
 
     // --- RENDERING FUNCTIONS ---
-    
+
     function updateUnitAnnualRentDisplays() {
         const data = currentData;
-        if (!data || !data.units) return; // Guard
-        document.querySelectorAll('.unit-annual-rent').forEach((el, index) => {
+        if (!data || !data.units) return;
+        const annualCells = document.querySelectorAll('.unit-annual-rent');
+        annualCells.forEach((el, index) => {
             if (data.units[index]) {
                 const u = data.units[index];
                 const count = typeof u.unitCount === 'number' && u.unitCount > 0 ? u.unitCount : 1;
@@ -1109,22 +1194,41 @@
         });
     }
 
+    function renderUnitMixSummaryTable() {
+        const tbody = document.getElementById('unitMixSummaryBody');
+        if (!tbody || !currentData || !currentData.units) return;
+
+        tbody.innerHTML = currentData.units.map(u => {
+            const count = typeof u.unitCount === 'number' && u.unitCount > 0 ? u.unitCount : 1;
+            const annual = u.rent * 12 * count;
+            return `
+                <tr>
+                    <td class="p-2">${u.unitType || ''}</td>
+                    <td class="p-2 text-center">${u.beds ?? ''}</td>
+                    <td class="p-2 text-center">${u.baths ?? ''}</td>
+                    <td class="p-2 text-right">${count}</td>
+                    <td class="p-2 text-right">${format(u.rent, false, false)}</td>
+                    <td class="p-2 text-right">${format(annual, false, false)}</td>
+                </tr>
+            `;
+        }).join('');
+    }
+
     function renderSummaryTab() {
         const { noi, annualDebtService, cashFlowY1, gpi, egi, totalOpEx, initialCashInvested } = globalResults;
         const data = currentData;
-        
-        if (!data) return; // Guard
+        if (!data) return;
 
         const coc = initialCashInvested !== 0 ? cashFlowY1 / initialCashInvested : NaN;
         const capRate = data.purchasePrice !== 0 ? noi / data.purchasePrice : NaN;
-        const absADS = Math.abs(annualDebtService); 
+        const absADS = Math.abs(annualDebtService);
         const dscr = absADS !== 0 ? noi / absADS : NaN;
-        
-        // Property Address Display 
+
         document.getElementById('summaryPropertyAddress').textContent = data.propertyAddress || 'No Property Address Entered';
         document.getElementById('summaryMLSNumber').textContent = data.mlsNumber || 'N/A';
 
         document.getElementById('gpiOutput').textContent = format(gpi, false, false);
+        document.getElementById('gpiInputTabOutput').textContent = format(gpi, false, false);
         document.getElementById('calcGPI').textContent = format(gpi, false, false);
         document.getElementById('vacancyRateDisplay').textContent = percentFormatter.format(data.vacancyRate);
         document.getElementById('calcVacancy').textContent = format(gpi * data.vacancyRate * -1, false, false);
@@ -1132,7 +1236,7 @@
         document.getElementById('calcOpEx').textContent = format(totalOpEx * -1, false, false);
         document.getElementById('calcNOI').textContent = format(noi, false, false);
         document.getElementById('calcADS').textContent = format(annualDebtService, false, false);
-        
+
         const cfEl = document.getElementById('calcCashFlow');
         cfEl.textContent = format(cashFlowY1);
         cfEl.classList.toggle('negative-value', cashFlowY1 < 0);
@@ -1140,48 +1244,57 @@
 
         document.getElementById('summaryPurchasePrice').textContent = format(data.purchasePrice, false, false);
         document.getElementById('summaryCashInvested').textContent = format(initialCashInvested, false, false);
-        
+
         const cocEl = document.getElementById('summaryCoC');
         cocEl.textContent = format(coc, true);
         cocEl.classList.toggle('negative-value', coc < 0);
         cocEl.classList.toggle('positive-return', coc >= 0 && !isNaN(coc));
 
         document.getElementById('summaryCapRate').textContent = format(capRate, true);
-        
+
         const dscrValue = isNaN(dscr) || !isFinite(dscr) ? 'N/A' : dscr.toFixed(2) + 'x';
         document.getElementById('summaryDSCR').textContent = dscrValue;
-        
+
         const summaryCFEl = document.getElementById('summaryCashFlow');
         summaryCFEl.textContent = format(cashFlowY1);
         summaryCFEl.classList.toggle('negative-value', cashFlowY1 < 0);
         summaryCFEl.classList.toggle('positive-return', cashFlowY1 > 0);
-        
+
         const dscrInterp = document.getElementById('dscrInterpretation');
-        if (dscr >= 1.25) { dscrInterp.textContent = 'Strong (Bank Favorable)'; dscrInterp.className = 'text-xs text-right positive-return'; } 
-        else if (dscr >= 1.0) { dscrInterp.textContent = 'Acceptable (Tight)'; dscrInterp.className = 'text-xs text-right calc-cell'; } 
-        else { dscrInterp.textContent = 'Needs Improvement (High Risk)'; dscrInterp.className = 'text-xs text-right negative-value'; }
+        if (dscr >= 1.25) {
+            dscrInterp.textContent = 'Strong (Bank Favorable)';
+            dscrInterp.className = 'text-xs text-right positive-return';
+        } else if (dscr >= 1.0) {
+            dscrInterp.textContent = 'Acceptable (Tight)';
+            dscrInterp.className = 'text-xs text-right calc-cell';
+        } else {
+            dscrInterp.textContent = 'Needs Improvement (High Risk)';
+            dscrInterp.className = 'text-xs text-right negative-value';
+        }
+
+        renderUnitMixSummaryTable();
     }
 
     function renderProjectionTab() {
         const { projectionData, remainingDebtY5, projectedSalePrice, netSaleProceeds, equityMultiple, projectIRR, annualDebtService } = globalResults;
         const data = currentData;
         const tbody = document.getElementById('projectionTableBody');
-        if (!tbody) return;
-        
+        if (!tbody || !data) return;
+
         tbody.innerHTML = '';
-        
+
         const rows = [
-            { label: 'Gross Potential Income (GPI)', key: 'gpi', format: true, class: 'bg-blue-50/70' },
-            { label: 'Effective Gross Income (EGI)', key: 'egi', format: true, class: '' },
-            { label: 'Total Operating Expenses', key: 'opEx', format: true, class: 'negative-value' },
-            { label: 'Net Operating Income (NOI)', key: 'noi', format: true, class: 'font-bold' },
-            { label: 'Annual Debt Service (ADS)', key: 'ads', format: true, class: 'negative-value' },
-            { label: 'Annual Cash Flow (CFBT)', key: 'cashFlow', format: true, class: 'font-bold text-lg' },
+            { label: 'Gross Potential Income (GPI)', key: 'gpi', format: true },
+            { label: 'Effective Gross Income (EGI)', key: 'egi', format: true },
+            { label: 'Total Operating Expenses', key: 'opEx', format: true },
+            { label: 'Net Operating Income (NOI)', key: 'noi', format: true },
+            { label: 'Annual Debt Service (ADS)', key: 'ads', format: true },
+            { label: 'Annual Cash Flow (CFBT)', key: 'cashFlow', format: true },
         ];
 
         rows.forEach(row => {
             const tr = document.createElement('tr');
-            tr.className = `border-b`;
+            tr.className = 'border-b';
             let html = `<td class="p-3 font-semibold ${row.key === 'cashFlow' ? 'text-blue-700' : ''}">${row.label}</td>`;
 
             projectionData.forEach(yearData => {
@@ -1197,18 +1310,18 @@
                 } else if (row.key === 'cashFlow') {
                     cellClass = value < 0 ? 'negative-value text-xl' : 'positive-return text-xl';
                 }
-                
+
                 html += `<td class="p-3 text-right ${cellClass}">${format(value, false, row.format)}</td>`;
             });
 
             tr.innerHTML = html;
             tbody.appendChild(tr);
         });
-        
+
         document.getElementById('exitCapRate').textContent = format(data.exitCapRate, true);
         document.getElementById('projectedSalePrice').textContent = format(projectedSalePrice, false, false);
         document.getElementById('remainingDebt').textContent = format(remainingDebtY5 * -1, false, false);
-        
+
         const proceedsEl = document.getElementById('saleProceeds');
         proceedsEl.textContent = format(netSaleProceeds, false, false);
         proceedsEl.classList.toggle('negative-value', netSaleProceeds < 0);
@@ -1219,30 +1332,28 @@
         equityEl.classList.toggle('negative-value', equityMultiple < 1);
         equityEl.classList.toggle('positive-return', equityMultiple >= 1);
 
-
         const irrEl = document.getElementById('projectIRR');
         irrEl.textContent = format(projectIRR, true);
         irrEl.classList.toggle('negative-value', projectIRR < 0);
         irrEl.classList.toggle('positive-return', projectIRR >= 0);
     }
-    
+
     function renderAssumptionsTab() {
         const { loanAmount, annualDebtService, initialCashInvested, annualTaxes, monthlyPmtMagnitude, managementFeeY1 } = globalResults;
-        
+
         document.getElementById('inputCashInvested').textContent = format(initialCashInvested, false, false);
         document.getElementById('inputLoanAmount').textContent = format(loanAmount, false, false);
-        document.getElementById('inputMonthlyPmt').textContent = format(monthlyPmtMagnitude, false, true); 
+        document.getElementById('inputMonthlyPmt').textContent = format(monthlyPmtMagnitude, false, true);
         document.getElementById('inputADS').textContent = format(Math.abs(annualDebtService), false, false);
         document.getElementById('inputTotalPayments').textContent = format(Math.abs(annualDebtService) * (currentData?.loanTermYears || 0), false, false);
 
         document.getElementById('outputAnnualTaxes').textContent = format(annualTaxes, false, false);
         document.getElementById('outputMgmtFee').textContent = format(managementFeeY1, false, false);
     }
-    
+
     // --- MAIN CONTROL FUNCTION ---
-    
+
     function renderAll() {
-        // Ensure currentData is present before rendering
         if (!currentData) {
             console.error("Cannot render: currentData is null. Falling back to default initialization.");
             currentData = JSON.parse(JSON.stringify(defaultState));
@@ -1253,127 +1364,114 @@
         renderProjectionTab();
         renderAssumptionsTab();
     }
-    
-// Core function for user interaction
-window.updateAndCalculate = function() {
-    readInputs();
-    runAllCalculations();
-    renderAll();
 
-    // Always save a local snapshot for this browser
-    saveCurrentToLocal();
-
-    // Only attempt to save to Firestore if auth is ready
-    if (isAuthReady) {
-        saveDebounced();
-    } else {
-        console.warn("[Update/Calculate] Auth not ready. Skipping cloud save.");
-    }
-}
-
-   // --- INITIALIZATION ---
-window.initializeApp = async function () {
-    setLogLevel('Debug');
-    setStatus('Starting Firebase...');
-
-    try {
-        const firebaseConfig = JSON.parse(
-            typeof __firebase_config !== 'undefined' ? __firebase_config : '{}'
-        );
-        const app = initializeApp(firebaseConfig);
-        db = getFirestore(app);
-        auth = getAuth(app);
-
-        const initialAuthToken =
-            typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
-
-        // Start with safe defaults so readInputs never breaks
-        currentData = JSON.parse(JSON.stringify(defaultState));
-        unitIdCounter = defaultState.units.length + 1;
-
-        // Try restoring saved local snapshot
-        const localSnapshot = loadCurrentFromLocal();
-        if (localSnapshot && localSnapshot.units && localSnapshot.units.length > 0) {
-            console.log('[LocalStorage] Restoring last-used scenario.');
-            currentData = localSnapshot;
-        }
-
-        // Push initial data to DOM and run calcs
-        applyDataToDOMFromLoadedData(currentData);
-        renderUnitMixInput();
+    // Core function for user interaction
+    window.updateAndCalculate = function () {
+        readInputs();
         runAllCalculations();
         renderAll();
 
-        // Firebase auth (for cloud sync)
-        if (initialAuthToken) {
-            await signInWithCustomToken(auth, initialAuthToken);
+        saveCurrentToLocal();
+
+        if (isAuthReady) {
+            saveDebounced();
         } else {
-            await signInAnonymously(auth);
+            console.warn("[Update/Calculate] Auth not ready. Skipping cloud save.");
+        }
+    };
+
+    // --- INITIALIZATION ---
+    window.initializeApp = async function () {
+        setLogLevel('Debug');
+        setStatus('Starting Firebase...');
+
+        try {
+            const firebaseConfig = JSON.parse(
+                typeof __firebase_config !== 'undefined' ? __firebase_config : '{}'
+            );
+            const app = initializeApp(firebaseConfig);
+            db = getFirestore(app);
+            auth = getAuth(app);
+
+            const initialAuthToken =
+                typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+
+            currentData = JSON.parse(JSON.stringify(defaultState));
+            unitIdCounter = defaultState.units.length + 1;
+
+            const localSnapshot = loadCurrentFromLocal();
+            if (localSnapshot && localSnapshot.units && localSnapshot.units.length > 0) {
+                console.log('[LocalStorage] Restoring last-used scenario.');
+                currentData = localSnapshot;
+            }
+
+            applyDataToDOMFromLoadedData(currentData);
+            renderUnitMixInput();
+            runAllCalculations();
+            renderAll();
+
+            if (initialAuthToken) {
+                await signInWithCustomToken(auth, initialAuthToken);
+            } else {
+                await signInAnonymously(auth);
+            }
+
+            onAuthStateChanged(auth, (user) => {
+                if (user) {
+                    userId = user.uid;
+                    isAuthReady = true;
+                    console.log(`[Firebase] User authenticated. ID: ${userId}.`);
+                    setStatus('Authenticated. Loading model...');
+                    loadProForma();
+                } else {
+                    isAuthReady = false;
+                    console.error('[Firebase] Authentication failed. Using defaults.');
+                    setStatus('Authentication failed. Using default data.', 'error');
+
+                    currentData = JSON.parse(JSON.stringify(defaultState));
+                    unitIdCounter = defaultState.units.length + 1;
+                    applyDataToDOMFromLoadedData(currentData);
+                    renderUnitMixInput();
+                    updateAndCalculate();
+                }
+            });
+        } catch (e) {
+            console.error('[Firebase] Initialization Error:', e);
+
+            setStatus('Enter fields with desired values to save a version', 'info');
+
+            currentData = JSON.parse(JSON.stringify(defaultState));
+            unitIdCounter = defaultState.units.length + 1;
+            applyDataToDOMFromLoadedData(currentData);
+            renderUnitMixInput();
+            runAllCalculations();
+            renderAll();
         }
 
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                userId = user.uid;
-                isAuthReady = true;
-                console.log(`[Firebase] User authenticated. ID: ${userId}.`);
-                setStatus('Authenticated. Loading model...');
-                loadProForma();
-            } else {
-                isAuthReady = false;
-                console.error('[Firebase] Authentication failed. Using defaults.');
-                setStatus('Authentication failed. Using default data.', 'error');
+        refreshScenarioDropdown();
+        showTab('assumptions');
+    };
 
-                currentData = JSON.parse(JSON.stringify(defaultState));
-                unitIdCounter = defaultState.units.length + 1;
-                applyDataToDOMFromLoadedData(currentData);
-                renderUnitMixInput();
-                updateAndCalculate();
-            }
+    // --- FIXED GLOBAL TAB SWITCHER ---
+    window.showTab = function (tabId) {
+        document.querySelectorAll('.tab-content').forEach((tab) => {
+            tab.classList.add('hidden');
         });
-    } catch (e) {
-        console.error('[Firebase] Initialization Error:', e);
 
-        // Friendly message instead of scary error text
-        setStatus('Enter fields with desired values to save a version', 'info');
+        document.querySelectorAll('.tab-button').forEach((button) => {
+            button.classList.remove('active');
+        });
 
-        // Hard fallback if Firebase setup itself fails
-        currentData = JSON.parse(JSON.stringify(defaultState));
-        unitIdCounter = defaultState.units.length + 1;
-        applyDataToDOMFromLoadedData(currentData);
-        renderUnitMixInput();
-        runAllCalculations();
-        renderAll();
-    }
+        const content = document.getElementById(tabId);
+        if (content) content.classList.remove('hidden');
 
-    // After Firebase init (success or failure), populate scenarios and show Inputs tab
-    refreshScenarioDropdown();
-    showTab('assumptions');
-};
-
-
-// --- FIXED GLOBAL TAB SWITCHER ---
-window.showTab = function (tabId) {
-    // Hide all tab contents
-    document.querySelectorAll('.tab-content').forEach((tab) => {
-        tab.classList.add('hidden');
-    });
-
-    // Reset all tab buttons
-    document.querySelectorAll('.tab-button').forEach((button) => {
-        button.classList.remove('active');
-    });
-
-    // Show the chosen tab
-    const content = document.getElementById(tabId);
-    if (content) content.classList.remove('hidden');
-
-    // Mark the corresponding button as active
-    const btn = document.querySelector(
-        `.nav-tabs button[onclick="showTab('${tabId}')"]`
-    );
-    if (btn) btn.classList.add('active');
-};
+        const btn = document.querySelector(
+            `.nav-tabs button[onclick="showTab('${tabId}')"]`
+        );
+        if (btn) btn.classList.add('active');
+    };
 </script>
+
 <!-- ===========================
      FOOTER — Navy + Gold (Option B)
 =========================== -->
@@ -1382,11 +1480,12 @@ window.showTab = function (tabId) {
 
         <!-- Logo -->
         <div class="mb-6 md:mb-0">
-            <img 
-  src="SIHR-house-logo-plain.png"
-  alt="SHE IS HOPE Realty Logo"
-  class="w-24 md:w-32 mx-auto md:mx-0 drop-shadow-lg"
-/>        </div>
+            <img
+                    src="SIHR-house-logo-plain.png"
+                    alt="SHE IS HOPE Realty Logo"
+                    class="w-24 md:w-32 mx-auto md:mx-0 drop-shadow-lg"
+            />
+        </div>
 
         <!-- Disclaimer -->
         <div class="text-gray-200 text-sm leading-relaxed md:pl-8 md:max-w-xl">
