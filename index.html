@@ -249,62 +249,77 @@
                     </div>
                 </div>
 
-                <!-- KPI and Investment Summary -->
-                <div class="lg:col-span-1">
-                    <div class="summary-box bg-blue-50 h-full">
-                        <h2 class="text-2xl font-semibold text-blue-800 border-b border-blue-200 pb-2 mb-4">
-                            Investment Summary (Year 1)
-                        </h2>
-                        <div class="space-y-5">
-                            <p class="font-medium">Purchase Price:</p>
-                            <p class="text-right kpi-value text-blue-900" id="summaryPurchasePrice"></p>
+<!-- KPI and Investment Summary -->
+<div class="lg:col-span-1">
+    <div class="summary-box bg-blue-50 h-full">
+        <h2 class="text-2xl font-semibold text-blue-800 border-b border-blue-200 pb-2 mb-4">
+            Investment Summary (Year 1)
+        </h2>
 
-                            <p class="font-medium">Total Initial Cash Invested:</p>
-                            <p class="text-right kpi-value text-blue-900" id="summaryCashInvested"></p>
+        <div class="space-y-4">
 
-                            <hr class="border-blue-200"/>
+            <!-- Purchase Price -->
+            <div class="flex justify-between items-start gap-3">
+                <p class="font-medium leading-tight">Purchase Price</p>
+                <p class="kpi-value text-blue-900 text-right" id="summaryPurchasePrice"></p>
+            </div>
 
-                            <h3 class="text-xl font-bold text-gray-700 pt-2">Key Performance Indicators</h3>
+            <!-- Total Cash Invested -->
+            <div class="flex justify-between items-start gap-3">
+                <p class="font-medium leading-tight max-w-[65%]">
+                    Total Initial Cash<br/>Invested
+                </p>
+                <p class="kpi-value text-blue-900 text-right" id="summaryCashInvested"></p>
+            </div>
 
-                            <p class="font-medium text-lg">
-                                Cash-on-Cash Return
-                                <span class="text-xs text-gray-500 ml-1"
-                                      title="Year 1 cash flow divided by total cash invested">
-                                    (Year 1 CF ÷ Cash In)
-                                </span>
-                            </p>
-                            <p class="text-right kpi-value positive-return" id="summaryCoC"></p>
+            <hr class="border-blue-200"/>
 
-                            <p class="font-medium text-lg">
-                                Capitalization Rate (Cap Rate)
-                                <span class="text-xs text-gray-500 ml-1"
-                                      title="NOI divided by purchase price">
-                                    (NOI ÷ Price)
-                                </span>
-                            </p>
-                            <p class="text-right kpi-value" id="summaryCapRate"></p>
+            <!-- KPI Header -->
+            <h3 class="text-xl font-bold text-gray-700 pt-2">Key Performance Indicators</h3>
 
-                            <p class="font-medium text-lg">
-                                Debt Service Coverage Ratio (DSCR)
-                                <span class="text-xs text-gray-500 ml-1"
-                                      title="NOI divided by annual debt service">
-                                    (NOI ÷ ADS)
-                                </span>
-                            </p>
-                            <p class="text-right kpi-value" id="summaryDSCR"></p>
-                            <p class="text-xs text-right" id="dscrInterpretation"></p>
+            <!-- Cash-on-Cash Return -->
+            <div class="flex justify-between items-start gap-3">
+                <p class="font-medium leading-tight">
+                    Cash-on-Cash Return<br/>
+                    <span class="text-xs text-gray-500">(Year 1 CF ÷ Cash In)</span>
+                </p>
+                <p class="kpi-value positive-return text-right" id="summaryCoC"></p>
+            </div>
 
-                            <hr class="border-blue-200"/>
+            <!-- Cap Rate -->
+            <div class="flex justify-between items-start gap-3">
+                <p class="font-medium leading-tight">
+                    Capitalization Rate (Cap Rate)<br/>
+                    <span class="text-xs text-gray-500">(NOI ÷ Price)</span>
+                </p>
+                <p class="kpi-value text-right" id="summaryCapRate"></p>
+            </div>
 
-                            <p class="font-medium text-lg pt-2">Projected Annual Cash Flow:</p>
-                            <p class="text-right kpi-value" id="summaryCashFlow"></p>
-                        </div>
-                    </div>
+            <!-- DSCR -->
+            <div class="flex justify-between items-start gap-3">
+                <p class="font-medium leading-tight">
+                    Debt Service Coverage Ratio (DSCR)<br/>
+                    <span class="text-xs text-gray-500">(NOI ÷ ADS)</span>
+                </p>
+                <div class="text-right">
+                    <p class="kpi-value" id="summaryDSCR"></p>
+                    <p class="text-xs" id="dscrInterpretation"></p>
                 </div>
             </div>
-        </div>
 
-        <!-- Tab 3: 5-Year Projections -->
+            <hr class="border-blue-200"/>
+
+            <!-- Annual Cash Flow -->
+            <div class="flex justify-between items-start gap-3 pt-2">
+                <p class="font-medium leading-tight">
+                    Projected Annual Cash Flow
+                </p>
+                <p class="kpi-value text-right" id="summaryCashFlow"></p>
+            </div>
+
+        </div>
+    </div>
+</div>        <!-- Tab 3: 5-Year Projections -->
         <div id="projections" class="tab-content hidden">
             <h2 class="text-2xl font-semibold text-gray-800 border-b pb-2 mb-4">
                 3. 5-Year Projections (Includes Growth)
