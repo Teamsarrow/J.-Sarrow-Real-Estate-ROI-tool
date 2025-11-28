@@ -468,6 +468,32 @@
                     </div>
                 </div>
             </div>
+    <!-- SHARE SCENARIO (CLIENT LINK) -->
+    <div class="mt-4 border-t border-green-200 pt-4">
+        <h4 class="text-sm font-semibold text-green-800 mb-2">
+            Share Scenario (Client Link)
+        </h4>
+        <div class="flex flex-col md:flex-row gap-2 items-stretch md:items-center">
+            <input
+                type="text"
+                id="shareLinkInput"
+                class="data-input-text flex-1 w-full p-2 border border-green-300 rounded-md text-xs md:text-sm bg-white"
+                value="Save a scenario to generate a shareable link"
+                readonly
+            />
+            <button
+                type="button"
+                onclick="window.copyShareLink()"
+                class="bg-white border border-green-500 text-green-700 text-xs md:text-sm font-semibold py-2 px-3 rounded-lg shadow-sm hover:bg-green-50 active:scale-95 whitespace-nowrap"
+            >
+                🔗 Copy Share Link
+            </button>
+        </div>
+        <p id="shareLinkHelper" class="mt-1 text-xs text-gray-500">
+            After saving a scenario, this link will point directly to that set of assumptions and projections.
+        </p>
+    </div>
+</div> <!-- end of Scenario Management card -->
 
             <!-- Unit Mix INPUTS -->
             <div class="input-group bg-blue-50 mt-4">
@@ -756,6 +782,8 @@
     let globalResults = {};
     let unitIdCounter = 0;
     let isAuthReady = false;
+    let currentScenarioId = null;
+
 
     const LOCAL_STORAGE_KEY_CURRENT = 'mfProforma_current';
     const LOCAL_STORAGE_KEY_SCENARIOS = 'mfProforma_scenarios';
@@ -835,6 +863,48 @@
         }, 800);
     }
 
+    // === Scenario ID + Share Link Helpers ===
+
+function getScenarioIdFromUrl() {
+    const params = new URLSearchParams(window.location.search);
+    return params.get('scenario');
+}
+
+function ensureScenarioId() {
+    if (!currentScenarioId || currentScenarioId === 'main_model') {
+        currentScenarioId = (window.crypto && crypto.randomUUID)
+            ? crypto.randomUUID()
+            : 'scn_' + Date.now().toString(36);
+    }
+    return currentScenarioId;
+}
+
+function getShareUrl() {
+    if (!currentScenarioId) return '';
+    const url = new URL(window.location.href);
+    url.searchParams.set('scenario', currentScenarioId);
+    return url.toString();
+}
+
+function updateShareLinkUI() {
+    const input = document.getElementById('shareLinkInput');
+    const helper = document.getElementById('shareLinkHelper');
+    if (!input || !helper) return;
+
+    if (!currentScenarioId || currentScenarioId === 'main_model') {
+        input.value = 'Save a scenario to generate a shareable link';
+        input.disabled = true;
+        helper.textContent = 'Use "Save Scenario" to create a link for this scenario.';
+        return;
+    }
+
+    const link = getShareUrl();
+    input.disabled = false;
+    input.value = link;
+    helper.textContent = 'Share this link with your client along with the PDF report.';
+}
+
+    
     function saveCurrentToLocal() {
         try {
             if (!currentData) return;
@@ -898,32 +968,74 @@
         }
     }
 
-    window.saveScenarioFromUI = function () {
-        if (!currentData) return;
-        const nameInput = document.getElementById('scenarioNameInput');
-        let name = (nameInput?.value || '').trim();
-        if (!name) {
-            name = currentData.propertyAddress || 'Untitled Scenario';
-        }
+window.saveScenarioFromUI = function () {
+    if (!currentData) return;
 
-        const scenarios = loadScenarioList();
-        const id = Date.now();
+    const nameInput = document.getElementById('scenarioNameInput');
+    let name = (nameInput?.value || '').trim();
+    if (!name) {
+        name = currentData.propertyAddress || 'Untitled Scenario';
+    }
 
-        scenarios.push({
-            id,
-            name,
-            timestamp: Date.now(),
-            data: currentData
-        });
+    const scenarios = loadScenarioList();
+    const id = Date.now();
 
-        saveScenarioList(scenarios);
-        refreshScenarioDropdown();
+    scenarios.push({
+        id,
+        name,
+        timestamp: Date.now(),
+        data: currentData
+    });
 
-        const select = document.getElementById('scenarioSelect');
-        if (select) select.value = String(id);
+    saveScenarioList(scenarios);
+    refreshScenarioDropdown();
 
-        setStatus(`Scenario "${name}" saved locally.`, 'success');
-    };
+    const select = document.getElementById('scenarioSelect');
+    if (select) select.value = String(id);
+
+    setStatus(`Scenario "${name}" saved locally.`, 'success');
+
+    // Make sure we have a cloud scenario ID for sharing
+    ensureScenarioId();
+    updateShareLinkUI();
+};
+
+   window.copyShareLink = function () {
+    // Ensure we have a dedicated scenario ID (not just main_model)
+    ensureScenarioId();
+
+    // Optional but recommended: push the latest data to Firestore
+    if (isAuthReady && currentData && currentData.units && currentData.units.length > 0) {
+        // fire-and-forget; no need to await
+        saveProForma();
+    }
+
+    const link = getShareUrl();
+    if (!link) {
+        setStatus('Unable to generate share link.', 'error');
+        return;
+    }
+
+    const input = document.getElementById('shareLinkInput');
+    if (input) {
+        input.disabled = false;
+        input.value = link;
+        input.select();
+        input.setSelectionRange(0, 99999); // mobile-friendly
+    }
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(link)
+            .then(() => setStatus('Share link copied to clipboard.', 'success'))
+            .catch(() => setStatus('Link ready – copy it from the box.', 'error'));
+    } else {
+        // Fallback if clipboard API isn't available
+        setStatus('Link ready – copy it from the box.', 'info');
+    }
+
+    updateShareLinkUI();
+};
+
 
     window.handleScenarioSelectChange = function () {
         const select = document.getElementById('scenarioSelect');
@@ -962,9 +1074,11 @@
         setStatus(`Scenario "${scenario?.name || ''}" deleted.`, 'info');
     };
 
-    function getProFormaDocRef() {
-        return doc(db, 'artifacts', appId, 'public', 'data', 'proformas', PROFORMA_DOC_ID);
-    }
+   function getProFormaDocRef() {
+    const scenarioId = currentScenarioId || 'main_model';
+    return doc(db, 'artifacts', appId, 'public', 'data', 'proformas', scenarioId);
+}
+
 
     async function saveProForma() {
         if (!db || !isAuthReady || !currentData || !currentData.units || currentData.units.length === 0) {
@@ -1660,9 +1774,13 @@
     };
 
     window.initializeApp = async function () {
-        setLogLevel('Debug');
+        setLogLevel('debug');
         setStatus('Starting Firebase...');
 
+// === STEP 2: Load scenario ID from URL ===
+    currentScenarioId = getScenarioIdFromUrl() || 'main_model';
+    updateShareLinkUI();
+        
         try {
             const firebaseConfig = JSON.parse(
                 typeof __firebase_config !== 'undefined' ? __firebase_config : '{}'
