@@ -1000,22 +1000,38 @@ window.saveScenarioFromUI = function () {
     updateShareLinkUI();
 };
 
-   window.copyShareLink = function () {
-    // Ensure we have a dedicated scenario ID (not just main_model)
+ window.copyShareLink = async function () {
+    // Make sure we have a dedicated scenario ID (not just main_model)
     ensureScenarioId();
 
-    // Optional but recommended: push the latest data to Firestore
-    if (isAuthReady && currentData && currentData.units && currentData.units.length > 0) {
-        // fire-and-forget; no need to await
-        saveProForma();
+    // Sanity-check that Firebase and data are ready
+    if (!isAuthReady || !db) {
+        setStatus('Still connecting to cloud – try again in a moment.', 'error');
+        return;
+    }
+    if (!currentData || !currentData.units || currentData.units.length === 0) {
+        setStatus('No scenario data to save.', 'error');
+        return;
     }
 
+    // 1) Save this exact scenario to Firestore under currentScenarioId
+    setStatus('Saving scenario to cloud...', 'info');
+    try {
+        await saveProForma();   // writes to proformas/<currentScenarioId>
+    } catch (e) {
+        console.error('[ShareLink] Error saving before share:', e);
+        setStatus('Could not save scenario to cloud; link would show defaults.', 'error');
+        return;
+    }
+
+    // 2) Build the share URL
     const link = getShareUrl();
     if (!link) {
         setStatus('Unable to generate share link.', 'error');
         return;
     }
 
+    // 3) Update the input box
     const input = document.getElementById('shareLinkInput');
     if (input) {
         input.disabled = false;
@@ -1024,17 +1040,22 @@ window.saveScenarioFromUI = function () {
         input.setSelectionRange(0, 99999); // mobile-friendly
     }
 
+    // 4) Copy to clipboard
     if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(link)
-            .then(() => setStatus('Share link copied to clipboard.', 'success'))
-            .catch(() => setStatus('Link ready – copy it from the box.', 'error'));
+        try {
+            await navigator.clipboard.writeText(link);
+            setStatus('Share link copied to clipboard.', 'success');
+        } catch (err) {
+            console.warn('[ShareLink] Clipboard error:', err);
+            setStatus('Link ready – copy it from the box.', 'error');
+        }
     } else {
-        // Fallback if clipboard API isn't available
         setStatus('Link ready – copy it from the box.', 'info');
     }
 
     updateShareLinkUI();
 };
+
 
 
     window.handleScenarioSelectChange = function () {
