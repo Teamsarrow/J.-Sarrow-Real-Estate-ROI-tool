@@ -468,32 +468,6 @@
                     </div>
                 </div>
             </div>
-    <!-- SHARE SCENARIO (CLIENT LINK) -->
-    <div class="mt-4 border-t border-green-200 pt-4">
-        <h4 class="text-sm font-semibold text-green-800 mb-2">
-            Share Scenario (Client Link)
-        </h4>
-        <div class="flex flex-col md:flex-row gap-2 items-stretch md:items-center">
-            <input
-                type="text"
-                id="shareLinkInput"
-                class="data-input-text flex-1 w-full p-2 border border-green-300 rounded-md text-xs md:text-sm bg-white"
-                value="Save a scenario to generate a shareable link"
-                readonly
-            />
-            <button
-                type="button"
-                onclick="window.copyShareLink()"
-                class="bg-white border border-green-500 text-green-700 text-xs md:text-sm font-semibold py-2 px-3 rounded-lg shadow-sm hover:bg-green-50 active:scale-95 whitespace-nowrap"
-            >
-                🔗 Copy Share Link
-            </button>
-        </div>
-        <p id="shareLinkHelper" class="mt-1 text-xs text-gray-500">
-            After saving a scenario, this link will point directly to that set of assumptions and projections.
-        </p>
-    </div>
-</div> <!-- end of Scenario Management card -->
 
             <!-- Unit Mix INPUTS -->
             <div class="input-group bg-blue-50 mt-4">
@@ -782,8 +756,6 @@
     let globalResults = {};
     let unitIdCounter = 0;
     let isAuthReady = false;
-    let currentScenarioId = null;
-
 
     const LOCAL_STORAGE_KEY_CURRENT = 'mfProforma_current';
     const LOCAL_STORAGE_KEY_SCENARIOS = 'mfProforma_scenarios';
@@ -863,48 +835,6 @@
         }, 800);
     }
 
-    // === Scenario ID + Share Link Helpers ===
-
-function getScenarioIdFromUrl() {
-    const params = new URLSearchParams(window.location.search);
-    return params.get('scenario');
-}
-
-function ensureScenarioId() {
-    if (!currentScenarioId || currentScenarioId === 'main_model') {
-        currentScenarioId = (window.crypto && crypto.randomUUID)
-            ? crypto.randomUUID()
-            : 'scn_' + Date.now().toString(36);
-    }
-    return currentScenarioId;
-}
-
-function getShareUrl() {
-    if (!currentScenarioId) return '';
-    const url = new URL(window.location.href);
-    url.searchParams.set('scenario', currentScenarioId);
-    return url.toString();
-}
-
-function updateShareLinkUI() {
-    const input = document.getElementById('shareLinkInput');
-    const helper = document.getElementById('shareLinkHelper');
-    if (!input || !helper) return;
-
-    if (!currentScenarioId || currentScenarioId === 'main_model') {
-        input.value = 'Save a scenario to generate a shareable link';
-        input.disabled = true;
-        helper.textContent = 'Use "Save Scenario" to create a link for this scenario.';
-        return;
-    }
-
-    const link = getShareUrl();
-    input.disabled = false;
-    input.value = link;
-    helper.textContent = 'Share this link with your client along with the PDF report.';
-}
-
-    
     function saveCurrentToLocal() {
         try {
             if (!currentData) return;
@@ -968,95 +898,32 @@ function updateShareLinkUI() {
         }
     }
 
-window.saveScenarioFromUI = function () {
-    if (!currentData) return;
-
-    const nameInput = document.getElementById('scenarioNameInput');
-    let name = (nameInput?.value || '').trim();
-    if (!name) {
-        name = currentData.propertyAddress || 'Untitled Scenario';
-    }
-
-    const scenarios = loadScenarioList();
-    const id = Date.now();
-
-    scenarios.push({
-        id,
-        name,
-        timestamp: Date.now(),
-        data: currentData
-    });
-
-    saveScenarioList(scenarios);
-    refreshScenarioDropdown();
-
-    const select = document.getElementById('scenarioSelect');
-    if (select) select.value = String(id);
-
-    setStatus(`Scenario "${name}" saved locally.`, 'success');
-
-    // Make sure we have a cloud scenario ID for sharing
-    ensureScenarioId();
-    updateShareLinkUI();
-};
-
- window.copyShareLink = async function () {
-    // Make sure we have a dedicated scenario ID (not just main_model)
-    ensureScenarioId();
-
-    // Sanity-check that Firebase and data are ready
-    if (!isAuthReady || !db) {
-        setStatus('Still connecting to cloud – try again in a moment.', 'error');
-        return;
-    }
-    if (!currentData || !currentData.units || currentData.units.length === 0) {
-        setStatus('No scenario data to save.', 'error');
-        return;
-    }
-
-    // 1) Save this exact scenario to Firestore under currentScenarioId
-    setStatus('Saving scenario to cloud...', 'info');
-    try {
-        await saveProForma();   // writes to proformas/<currentScenarioId>
-    } catch (e) {
-        console.error('[ShareLink] Error saving before share:', e);
-        setStatus('Could not save scenario to cloud; link would show defaults.', 'error');
-        return;
-    }
-
-    // 2) Build the share URL
-    const link = getShareUrl();
-    if (!link) {
-        setStatus('Unable to generate share link.', 'error');
-        return;
-    }
-
-    // 3) Update the input box
-    const input = document.getElementById('shareLinkInput');
-    if (input) {
-        input.disabled = false;
-        input.value = link;
-        input.select();
-        input.setSelectionRange(0, 99999); // mobile-friendly
-    }
-
-    // 4) Copy to clipboard
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-        try {
-            await navigator.clipboard.writeText(link);
-            setStatus('Share link copied to clipboard.', 'success');
-        } catch (err) {
-            console.warn('[ShareLink] Clipboard error:', err);
-            setStatus('Link ready – copy it from the box.', 'error');
+    window.saveScenarioFromUI = function () {
+        if (!currentData) return;
+        const nameInput = document.getElementById('scenarioNameInput');
+        let name = (nameInput?.value || '').trim();
+        if (!name) {
+            name = currentData.propertyAddress || 'Untitled Scenario';
         }
-    } else {
-        setStatus('Link ready – copy it from the box.', 'info');
-    }
 
-    updateShareLinkUI();
-};
+        const scenarios = loadScenarioList();
+        const id = Date.now();
 
+        scenarios.push({
+            id,
+            name,
+            timestamp: Date.now(),
+            data: currentData
+        });
 
+        saveScenarioList(scenarios);
+        refreshScenarioDropdown();
+
+        const select = document.getElementById('scenarioSelect');
+        if (select) select.value = String(id);
+
+        setStatus(`Scenario "${name}" saved locally.`, 'success');
+    };
 
     window.handleScenarioSelectChange = function () {
         const select = document.getElementById('scenarioSelect');
@@ -1095,11 +962,9 @@ window.saveScenarioFromUI = function () {
         setStatus(`Scenario "${scenario?.name || ''}" deleted.`, 'info');
     };
 
-   function getProFormaDocRef() {
-    const scenarioId = currentScenarioId || 'main_model';
-    return doc(db, 'artifacts', appId, 'public', 'data', 'proformas', scenarioId);
-}
-
+    function getProFormaDocRef() {
+        return doc(db, 'artifacts', appId, 'public', 'data', 'proformas', PROFORMA_DOC_ID);
+    }
 
     async function saveProForma() {
         if (!db || !isAuthReady || !currentData || !currentData.units || currentData.units.length === 0) {
@@ -1794,91 +1659,75 @@ window.saveScenarioFromUI = function () {
         }
     };
 
-   window.initializeApp = async function () {
-    setLogLevel('debug');
-    setStatus('Starting Firebase...');
+    window.initializeApp = async function () {
+        setLogLevel('Debug');
+        setStatus('Starting Firebase...');
 
-    // 1) Read scenario from URL (if any)
-    const scenarioFromUrl = getScenarioIdFromUrl();
-    currentScenarioId = scenarioFromUrl || 'main_model';
-    console.log('[Init] currentScenarioId =', currentScenarioId);
-    updateShareLinkUI();
+        try {
+            const firebaseConfig = JSON.parse(
+                typeof __firebase_config !== 'undefined' ? __firebase_config : '{}'
+            );
+            const app = initializeApp(firebaseConfig);
+            db = getFirestore(app);
+            auth = getAuth(app);
 
-    try {
-        const firebaseConfig = JSON.parse(
-            typeof __firebase_config !== 'undefined' ? __firebase_config : '{}'
-        );
-        const app = initializeApp(firebaseConfig);
-        db = getFirestore(app);
-        auth = getAuth(app);
+            const initialAuthToken =
+                typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
 
-        const initialAuthToken =
-            typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+            currentData = JSON.parse(JSON.stringify(defaultState));
+            unitIdCounter = defaultState.units.length + 1;
 
-        // 2) Start from defaults
-        currentData = JSON.parse(JSON.stringify(defaultState));
-        unitIdCounter = defaultState.units.length + 1;
-
-        // 3) ONLY restore from localStorage if there is NO scenario in the URL
-        if (!scenarioFromUrl) {
             const localSnapshot = loadCurrentFromLocal();
             if (localSnapshot && localSnapshot.units && localSnapshot.units.length > 0) {
-                console.log('[LocalStorage] Restoring last-used scenario (no URL scenario).');
+                console.log('[LocalStorage] Restoring last-used scenario.');
                 currentData = localSnapshot;
             }
-        } else {
-            console.log('[Init] Scenario from URL detected:', scenarioFromUrl,
-                        '– skipping localStorage restore.');
-        }
 
-        // 4) Render initial view
-        applyDataToDOMFromLoadedData(currentData);
-        renderUnitMixInput();
-        runAllCalculations();
-        renderAll();
+            applyDataToDOMFromLoadedData(currentData);
+            renderUnitMixInput();
+            runAllCalculations();
+            renderAll();
 
-        // 5) Auth, then load from Firestore for currentScenarioId
-        if (initialAuthToken) {
-            await signInWithCustomToken(auth, initialAuthToken);
-        } else {
-            await signInAnonymously(auth);
-        }
-
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                userId = user.uid;
-                isAuthReady = true;
-                console.log(`[Firebase] User authenticated. ID: ${userId}.`);
-                setStatus('Authenticated. Loading model...');
-                loadProForma();  // uses currentScenarioId
+            if (initialAuthToken) {
+                await signInWithCustomToken(auth, initialAuthToken);
             } else {
-                isAuthReady = false;
-                console.error('[Firebase] Authentication failed. Using defaults.');
-                setStatus('Authentication failed. Using default data.', 'error');
-
-                currentData = JSON.parse(JSON.stringify(defaultState));
-                unitIdCounter = defaultState.units.length + 1;
-                applyDataToDOMFromLoadedData(currentData);
-                renderUnitMixInput();
-                updateAndCalculate();
+                await signInAnonymously(auth);
             }
-        });
-    } catch (e) {
-        console.error('[Firebase] Initialization Error:', e);
-        setStatus('Enter fields with desired values to save a version', 'info');
 
-        currentData = JSON.parse(JSON.stringify(defaultState));
-        unitIdCounter = defaultState.units.length + 1;
-        applyDataToDOMFromLoadedData(currentData);
-        renderUnitMixInput();
-        runAllCalculations();
-        renderAll();
-    }
+            onAuthStateChanged(auth, (user) => {
+                if (user) {
+                    userId = user.uid;
+                    isAuthReady = true;
+                    console.log(`[Firebase] User authenticated. ID: ${userId}.`);
+                    setStatus('Authenticated. Loading model...');
+                    loadProForma();
+                } else {
+                    isAuthReady = false;
+                    console.error('[Firebase] Authentication failed. Using defaults.');
+                    setStatus('Authentication failed. Using default data.', 'error');
 
-    refreshScenarioDropdown();
-    showTab('assumptions');
-};
+                    currentData = JSON.parse(JSON.stringify(defaultState));
+                    unitIdCounter = defaultState.units.length + 1;
+                    applyDataToDOMFromLoadedData(currentData);
+                    renderUnitMixInput();
+                    updateAndCalculate();
+                }
+            });
+        } catch (e) {
+            console.error('[Firebase] Initialization Error:', e);
+            setStatus('Enter fields with desired values to save a version', 'info');
 
+            currentData = JSON.parse(JSON.stringify(defaultState));
+            unitIdCounter = defaultState.units.length + 1;
+            applyDataToDOMFromLoadedData(currentData);
+            renderUnitMixInput();
+            runAllCalculations();
+            renderAll();
+        }
+
+        refreshScenarioDropdown();
+        showTab('assumptions');
+    };
 
     window.showTab = function (tabId) {
         document.querySelectorAll('.tab-content').forEach((tab) => {
