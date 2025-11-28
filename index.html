@@ -107,34 +107,142 @@
             -webkit-appearance: none;
             margin: 0;
         }
-        @media print {
-            body {
-                background-color: white;
-                padding: 0;
-            }
-            .report-container {
-                box-shadow: none;
-                border-radius: 0;
-                max-width: 100%;
-            }
-            .nav-tabs,
-            .print-button-container,
-            .input-form-control,
-            .add-unit-button,
-            #statusMessage {
-                display: none !important;
-            }
-            .tab-content {
-                display: block !important;
-                padding: 0 !important;
-                margin: 0;
-                width: 100%;
-            }
-            #projections,
-            #assumptions {
-                page-break-before: always;
-            }
-        }
+    @media print {
+    /* Use US Letter, portrait; adjust margins if needed */
+    @page {
+        size: letter portrait;
+        margin: 0.5in;
+    }
+
+    body {
+        background-color: #ffffff !important;
+        padding: 0 !important;
+        font-size: 11px !important;           /* smaller global font */
+        line-height: 1.2 !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .report-container {
+        box-shadow: none !important;
+        border-radius: 0 !important;
+        max-width: 100% !important;
+        margin: 0 !important;
+    }
+
+    /* Hide interactive / on-screen UI */
+    .nav-tabs,
+    .print-button-container,
+    .input-form-control,
+    .add-unit-button,
+    #statusMessage {
+        display: none !important;
+    }
+
+    /* Show ALL tabs in sequence during print */
+    .tab-content {
+        display: block !important;
+        padding: 0 !important;
+        margin: 0 0 0.2in 0 !important;
+        width: 100% !important;
+    }
+
+    /* 1) Make the summary layout single-column in print so KPIs don't overflow */
+    .lg\:grid-cols-3 {
+        grid-template-columns: 1fr !important;
+    }
+
+    /* 2) Shrink KPI fonts & headings so they don't "slop off" the page */
+    .kpi-value {
+        font-size: 1.05rem !important;
+        font-weight: 600 !important;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+    }
+
+    #summary h1,
+    #summary h2,
+    #summary h3,
+    .summary-box h2,
+    .summary-box h3 {
+        font-size: 0.95rem !important;
+        margin-bottom: 0.15in !important;
+    }
+
+    .header-section {
+        padding: 0.25in 0.2in !important;
+    }
+
+    .header-section h1 {
+        font-size: 1.1rem !important;
+    }
+
+    .header-section p {
+        font-size: 0.85rem !important;
+    }
+
+    /* 3) Tighten all tables for print */
+    table {
+        page-break-inside: auto;
+        border-collapse: collapse !important;
+    }
+
+    th,
+    td {
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+        padding: 3px 4px !important;          /* tighter padding */
+        font-size: 10px !important;           /* smaller table text */
+    }
+
+    /* Extra tightening for the 5-year projections table */
+    #projections table th,
+    #projections table td {
+        padding: 2px 3px !important;
+        font-size: 9px !important;
+        line-height: 1.15 !important;
+    }
+
+    /* Group cards avoid splitting awkwardly */
+    .input-group,
+    .summary-box {
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+        padding: 10px !important;
+        margin-bottom: 8px !important;
+    }
+
+    /* Page breaks between major sections (but not overly aggressive) */
+    #summary {
+        page-break-after: always;
+    }
+
+    #projections {
+        page-break-before: always;
+        page-break-after: always;
+    }
+
+    #assumptions {
+        page-break-before: always;
+    }
+
+    /* Ensure headings don't orphan at the bottom of a page */
+    h1, h2, h3,
+    .header-section {
+        page-break-after: avoid !important;
+        break-after: avoid !important;
+    }
+
+    /* Let the footer share the last page instead of always forcing a new one */
+    footer {
+        page-break-before: auto !important;
+        border-top-width: 1px !important;
+        border-radius: 0 !important;
+        font-size: 9px !important;
+        padding-top: 0.15in !important;
+    }
+}
+
     </style>
 </head>
 <body onload="initializeApp()">
