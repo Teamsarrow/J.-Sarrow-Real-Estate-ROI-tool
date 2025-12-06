@@ -82,8 +82,7 @@
             background-color: #f7f7f7;
         }
 
-        /* Print Styles */
-@media print {
+        /* Print Styles */@media print {
     /* * NEW RULES FOR PAGE BREAKS AND TABLES */
     @page {
         margin: 0.5cm; /* Reduced margin slightly to gain space */
@@ -107,7 +106,7 @@
 
     /* 1. Reduce header font size for all major titles */
     header, h1, h2, h3 {
-        font-size: 12pt !important;  
+        font-size: 12pt !important; 
         line-height: 1.2 !important;
         padding-top: 0.5rem !important;
         padding-bottom: 0.5rem !important;
@@ -127,8 +126,7 @@
         word-break: break-word;     /* Help long text/numbers fit */
     }
 
-    /* * EXISTING RULES (Keep these as they were)
-    */
+    /* * EXISTING RULES (Keep these as they were) */
     body { background-color: white; padding: 0; }
 
     /* START: FIX for Change AA - Hiding navigation/tabs for print ONLY */
@@ -156,7 +154,6 @@
     .report-container header .text-[#CFAF66] {
         color: #CFAF66 !important; /* Keep the gold text in the header */
     }
-
 
     /* Change AF: KPI Cards - Center justify labels and values. */
     .kpi-card, .kpi-card > div, .kpi-card > div > div {
@@ -188,20 +185,86 @@
         padding-top: 0 !important;
     }
     /* END: Change AD, AF, AG, AE */
+    
+    
+    /* ** NEW FIXES FOR TABLE HEADERS (Steps 4-7) ** */
+
+    /* 4. Unit Mix & Income Table Header Shrink (Year 1 Summary) */
+    #summary table th {
+        white-space: nowrap !important; 
+        padding: 3px !important; 
+        font-size: 8pt !important;
+    }
+    
+    /* 5. Unit Mix Data Row Shrink - ADDED nowrap */
+    #summary table td {
+        padding: 3px !important; 
+        font-size: 8pt !important;
+        white-space: nowrap !important; /* FIX: Prevents Unit Mix data from wrapping */
+    }
+
+    /* 6. 5-Year Projections Table Header Shrink */
+    #projections table th {
+        white-space: nowrap !important;
+        padding: 3px !important; 
+        font-size: 9pt !important; 
+    }
+    
+    /* 7. 5-Year Projections Data Row Shrink - ADDED nowrap */
+    #projections table td {
+        padding: 3px !important;
+        font-size: 9pt !important;
+        white-space: nowrap !important; /* FIX: Prevents 5-Year Projections data from wrapping */
+    }
+    
+    /* ** NEW FIXES FOR TEXT COLOR & KPI WRAPPING ** */
+    
+    /* Fix 1: Prevent KPI money amounts from wrapping */
+    #summaryPurchasePrice,
+    #summaryCashInvested {
+        white-space: nowrap !important; 
+    }
+
+    /* Fix 2: Change Header Text Color to Navy Blue (#0A1A44) */
+    .report-container header p, 
+    .report-container header span, 
+    .report-container header a, 
+    .report-container h1, 
+    .report-container h2, 
+    .report-container main h3, 
+    .report-container main p,
+    .report-container main .text-lg,
+    .report-container main .text-sm
+    {
+        color: #0A1A44 !important;
+    }
 
 
-    /* ... rest of your print styles ... */
-    .tab-content { display: block !important; padding: 0 !important; margin: 0; width: 100%; }
+    /* ** REST OF YOUR PRINT STYLES (Consolidated) ** */
+    .tab-content { 
+        display: block !important; 
+        padding: 0 !important; 
+        margin: 0; 
+        width: 100%; 
+    }
     #projections,
-    #assumptions { page-break-before: always; }
-    .print-hidden { display: none !important; }
-    .print-block { display: block !important; }
+    #assumptions { 
+        page-break-before: always; 
+    }
+    .print-hidden { 
+        display: none !important; 
+    }
+    .print-block { 
+        display: block !important; 
+    }
     /* Force tables to be fully visible */
-    .overflow-x-auto { overflow-x: visible !important; }
-    .min-w-full { min-width: 100% !important; }
-}
-/* NOTE: Removed .unit-mix-header custom class... */
-        /* NOTE: Removed .unit-mix-header custom class to allow Tailwind's text-center to work */
+    .overflow-x-auto { 
+        overflow-x: visible !important; 
+    }
+    .min-w-full { 
+        min-width: 100% !important; 
+    }
+} /* Final, essential closing brace */
     </style>
 </head>
 <body class="p-2 sm:p-5" onload="initializeApp()">
@@ -1592,4 +1655,3 @@
 </script>
 </body>
 </html>
-
